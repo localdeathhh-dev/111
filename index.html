@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0912">
-  <meta name="description" content="Добавьте бесплатную подписку Сказочного VPN в INCY одним касанием.">
-  <meta property="og:title" content="Сказочный VPN — добавить в INCY">
-  <meta property="og:description" content="Сказочный VPN — интернет без драконов.">
-  <title>Сказочный VPN — добавить в INCY</title>
+  <meta name="description" content="Сказочный VPN — свободный интернет в одно касание.">
+  <meta property="og:title" content="Сказочный VPN">
+  <meta property="og:description" content="Интернет задумывался свободным.">
+  <title>Сказочный VPN</title>
 
   <!-- Вставьте постоянную ссылку подписки между кавычками. -->
   <script>
@@ -21,17 +21,28 @@
 
     :root {
       --ink: #0b0912;
-      --ink-soft: #15111f;
-      --paper: #fffdf8;
-      --violet: #9375f4;
-      --violet-deep: #7051db;
+      --paper: #f7f4ee;
+      --paper-soft: #eee9f5;
+      --violet: #8f70ee;
+      --violet-deep: #6547cb;
       --lilac: #cfc2ff;
       --pink: #ff9ce8;
-      --cyan: #97f3ff;
-      --lime: #dcff68;
+      --cyan: #8ceaf4;
+      --lime: #ddff6b;
       --display: "Unbounded", "Arial Black", sans-serif;
       --body: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       --spring: cubic-bezier(.16, 1, .3, 1);
+
+      /*
+       * Telegram Mini App передаёт безопасные отступы
+       * через --tg-safe-area-inset-top и
+       * --tg-content-safe-area-inset-top.
+       */
+      --tg-top: calc(
+        max(18px, env(safe-area-inset-top, 0px)) +
+        var(--tg-safe-area-inset-top, 0px) +
+        var(--tg-content-safe-area-inset-top, 0px)
+      );
     }
 
     * {
@@ -44,7 +55,6 @@
       min-height: 100%;
       overflow-x: hidden;
       background: var(--ink);
-      scroll-behavior: smooth;
     }
 
     body {
@@ -53,35 +63,41 @@
       min-height: 100%;
       margin: 0;
       overflow-x: hidden;
-      background: var(--ink);
-      color: var(--paper);
+      background:
+        radial-gradient(
+          circle at 78% 8%,
+          rgba(143, 112, 238, .18),
+          transparent 30%
+        ),
+        var(--ink);
+      color: var(--ink);
       font-family: var(--body);
       -webkit-font-smoothing: antialiased;
     }
 
-    button,
-    a {
+    button {
       color: inherit;
       font: inherit;
       -webkit-tap-highlight-color: transparent;
     }
 
-    button {
-      border: 0;
-    }
-
-    a {
-      text-decoration: none;
-    }
-
     ::selection {
-      color: var(--ink);
-      background: var(--lime);
+      color: var(--paper);
+      background: var(--violet-deep);
+    }
+
+    .noise {
+      position: fixed;
+      z-index: 30;
+      inset: 0;
+      opacity: .032;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+      pointer-events: none;
     }
 
     #stardust {
       position: fixed;
-      z-index: -3;
+      z-index: -1;
       inset: 0;
       display: block;
       width: 100%;
@@ -89,282 +105,262 @@
       pointer-events: none;
     }
 
-    .noise {
-      position: fixed;
-      z-index: 90;
-      inset: 0;
-      opacity: .035;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
-      pointer-events: none;
+    .page {
+      width: min(1320px, 100%);
+      min-height: 100vh;
+      min-height: 100svh;
+      margin: 0 auto;
+      padding:
+        var(--tg-top)
+        clamp(8px, 1.4vw, 20px)
+        max(10px, env(safe-area-inset-bottom, 0px));
+      overflow: clip;
     }
 
-    .ambient {
-      position: fixed;
-      z-index: -4;
+    .freedom-card {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      min-height: calc(100vh - var(--tg-top) - 12px);
+      min-height: calc(100svh - var(--tg-top) - 12px);
+      padding: clamp(22px, 4vw, 58px);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .26);
+      border-radius: clamp(27px, 3.5vw, 52px);
+      background:
+        radial-gradient(
+          circle at 82% 12%,
+          rgba(255, 255, 255, .8),
+          transparent 23%
+        ),
+        var(--paper);
+      box-shadow: 0 36px 110px rgba(0, 0, 0, .42);
+    }
+
+    .freedom-card::before {
+      position: absolute;
+      z-index: -2;
+      top: -210px;
+      right: -40px;
+      width: 540px;
+      height: 540px;
+      border-radius: 44% 56% 48% 52% / 52% 42% 58% 48%;
+      background: radial-gradient(
+        circle at 35% 30%,
+        #ded5ff,
+        #ad95f4 53%,
+        #8ceaf4 100%
+      );
+      content: "";
+      opacity: .9;
+      animation: morph 13s ease-in-out infinite;
+    }
+
+    .freedom-card::after {
+      position: absolute;
+      z-index: -2;
+      bottom: -260px;
+      left: -190px;
+      width: 500px;
+      height: 500px;
       border-radius: 50%;
-      filter: blur(130px);
-      pointer-events: none;
+      background: rgba(221, 255, 107, .5);
+      content: "";
+      filter: blur(85px);
+      animation: glowFloat 12s ease-in-out infinite alternate;
     }
 
-    .ambient--one {
-      top: -24vw;
-      right: -16vw;
-      width: 54vw;
-      min-width: 480px;
-      aspect-ratio: 1;
-      background: rgba(147, 117, 244, .2);
-      animation: ambient 16s ease-in-out infinite alternate;
-    }
-
-    .ambient--two {
-      bottom: -28vw;
-      left: -20vw;
-      width: 48vw;
-      min-width: 420px;
-      aspect-ratio: 1;
-      background: rgba(86, 219, 225, .08);
-      animation: ambient 20s -5s ease-in-out infinite alternate-reverse;
-    }
-
-    .site-bar {
-      position: fixed;
-      z-index: 100;
-      top: max(10px, env(safe-area-inset-top));
-      left: 50%;
+    .meta-row {
+      position: relative;
+      z-index: 5;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      width: min(1280px, calc(100% - 20px));
-      min-height: 64px;
-      padding: 9px 10px 9px 19px;
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 19px;
-      background: rgba(11, 9, 18, .91);
-      box-shadow: 0 18px 60px rgba(0, 0, 0, .32);
-      color: var(--paper);
-      transform: translateX(-50%);
-      backdrop-filter: blur(24px) saturate(140%);
+      gap: 20px;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      min-width: 0;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: -.04em;
-      white-space: nowrap;
     }
 
     .brand-mark {
       display: grid;
       width: 34px;
       height: 34px;
-      flex: 0 0 auto;
       place-items: center;
-      border: 1px solid rgba(255, 255, 255, .12);
+      border: 1px solid rgba(11, 9, 18, .11);
       border-radius: 11px;
-      background: rgba(207, 194, 255, .12);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14);
-      color: var(--lilac);
-      transition: transform .6s var(--spring);
-    }
-
-    .brand:hover .brand-mark {
-      transform: rotate(135deg) scale(1.08);
+      background: rgba(255, 255, 255, .28);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5);
+      color: var(--violet-deep);
+      backdrop-filter: blur(12px);
+      animation: markFloat 5s ease-in-out infinite;
     }
 
     .brand-dot {
-      color: var(--lilac);
+      color: var(--violet-deep);
     }
 
-    .header-connect {
+    .free-pill {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 44px;
-      padding: 10px 16px;
-      border-radius: 14px;
-      background: var(--paper);
-      color: var(--ink);
-      font-size: 11px;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid rgba(11, 9, 18, .11);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .22);
+      color: rgba(11, 9, 18, .62);
+      font-size: 8px;
       font-weight: 800;
-      cursor: pointer;
-      transition: background .25s ease, transform .35s var(--spring);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
     }
 
-    .header-connect:hover {
-      background: var(--lime);
-      transform: translateY(-2px);
-    }
-
-    .header-connect:disabled {
-      opacity: .62;
-      cursor: wait;
-      transform: none;
-    }
-
-    .header-arrow {
-      transition: transform .35s var(--spring);
-    }
-
-    .header-connect:hover .header-arrow {
-      transform: translate(3px, -3px);
-    }
-
-    .page {
+    .free-pill i {
       position: relative;
-      isolation: isolate;
-      display: grid;
-      gap: clamp(10px, 1.2vw, 16px);
-      width: min(1320px, 100%);
-      min-height: 100vh;
-      min-height: 100svh;
-      margin: 0 auto;
-      padding: 92px clamp(10px, 1.5vw, 22px) clamp(10px, 1.5vw, 22px);
-      overflow: clip;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #75b84d;
+      box-shadow: 0 0 12px rgba(117, 184, 77, .7);
     }
 
-    .manifesto-strip {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
-      align-items: center;
-      gap: clamp(24px, 5vw, 80px);
-      min-height: 190px;
-      padding: clamp(28px, 4vw, 54px);
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, .16);
-      border-radius: clamp(24px, 2.6vw, 38px);
-      background: var(--paper);
-      box-shadow: 0 24px 70px rgba(0, 0, 0, .22);
-      color: var(--ink);
-    }
-
-    .manifesto-strip::before {
+    .free-pill i::after {
       position: absolute;
-      z-index: -1;
-      top: -135px;
-      right: 7%;
-      width: 340px;
-      height: 340px;
-      border-radius: 44% 56% 48% 52%;
-      background: radial-gradient(
-        circle at 35% 30%,
-        var(--lilac),
-        #aa91f2 55%,
-        var(--cyan)
-      );
+      inset: -5px;
+      border: 1px solid #75b84d;
+      border-radius: 50%;
       content: "";
-      opacity: .78;
-      animation: morph 10s ease-in-out infinite;
+      animation: ping 2s ease-out infinite;
     }
 
-    .manifesto-title {
+    .hero-copy {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(230px, .7fr);
+      align-items: end;
+      gap: clamp(30px, 6vw, 90px);
+      margin-top: clamp(70px, 9vh, 120px);
+    }
+
+    .hero-title {
       margin: 0;
       font-family: var(--display);
-      font-size: clamp(28px, 4vw, 58px);
+      font-size: clamp(48px, 7vw, 108px);
       font-weight: 600;
-      letter-spacing: -.065em;
-      line-height: 1.08;
+      letter-spacing: -.075em;
+      line-height: .98;
     }
 
-    .manifesto-title em {
+    .title-line {
+      display: block;
+      overflow: hidden;
+      padding: 0 .08em .08em 0;
+    }
+
+    .title-line span {
+      display: block;
+      opacity: 0;
+      transform: translateY(110%) rotate(2deg);
+      animation: titleIn 1.15s .1s var(--spring) forwards;
+    }
+
+    .title-line:nth-child(2) span {
       color: var(--violet-deep);
-      font-style: normal;
-      white-space: nowrap;
+      animation-delay: .22s;
     }
 
-    .manifesto-copy {
-      position: relative;
-      z-index: 2;
-      max-width: 390px;
+    .hero-side {
+      padding-bottom: 10px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: rise .9s .38s var(--spring) forwards;
+    }
+
+    .hero-side p {
       margin: 0;
-      color: rgba(11, 9, 18, .58);
-      font-size: clamp(12px, 1.2vw, 15px);
+      color: rgba(11, 9, 18, .56);
+      font-size: clamp(13px, 1.25vw, 16px);
       line-height: 1.75;
     }
 
-    .manifesto-sign {
-      display: block;
-      margin-top: 15px;
-      color: rgba(11, 9, 18, .4);
-      font-size: 9px;
+    .signature {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 20px;
+      color: rgba(11, 9, 18, .42);
+      font-size: 8px;
       font-weight: 800;
       letter-spacing: .12em;
       text-transform: uppercase;
     }
 
-    .manifesto-star {
-      position: absolute;
-      top: 24px;
-      right: 27px;
-      color: white;
-      font-size: 25px;
-      text-shadow: 0 0 20px rgba(255, 255, 255, .55);
-      animation: twinkle 2.8s ease-in-out infinite;
+    .signature::before {
+      width: 32px;
+      height: 1px;
+      background: rgba(11, 9, 18, .25);
+      content: "";
     }
 
-    .vpn-section {
+    .portal-zone {
       position: relative;
+      z-index: 4;
       display: grid;
-      min-height: 790px;
-      padding: clamp(28px, 4vw, 58px);
+      min-height: 600px;
+      margin-top: clamp(55px, 8vh, 95px);
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, .1);
-      border-radius: clamp(25px, 3vw, 44px);
+      border: 1px solid rgba(11, 9, 18, .09);
+      border-radius: clamp(25px, 3vw, 42px);
       background:
         radial-gradient(
-          circle at 50% 47%,
-          rgba(147, 117, 244, .24),
-          transparent 31%
+          circle at 50% 50%,
+          rgba(174, 150, 246, .28),
+          transparent 29%
         ),
-        radial-gradient(
-          circle at 15% 82%,
-          rgba(74, 218, 225, .08),
-          transparent 27%
-        ),
-        linear-gradient(145deg, #16121f 0%, #0c0a11 70%);
-      box-shadow: 0 35px 100px rgba(0, 0, 0, .3);
+        linear-gradient(145deg, #eee8f6 0%, #e5ddf2 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65);
       place-items: center;
     }
 
-    .vpn-section::before,
-    .vpn-section::after {
+    .portal-zone::before,
+    .portal-zone::after {
       position: absolute;
       border-radius: 50%;
       content: "";
       pointer-events: none;
-      filter: blur(1px);
     }
 
-    .vpn-section::before {
-      top: -32%;
-      right: -13%;
-      width: 64%;
+    .portal-zone::before {
+      top: -38%;
+      right: -12%;
+      width: 62%;
       aspect-ratio: 1;
-      border: 1px solid rgba(255, 255, 255, .045);
+      border: 1px dashed rgba(11, 9, 18, .09);
       box-shadow:
-        0 0 0 55px rgba(255, 255, 255, .015),
-        0 0 0 110px rgba(255, 255, 255, .01);
-      animation: slowPulse 8s ease-in-out infinite;
+        0 0 0 55px rgba(11, 9, 18, .018),
+        0 0 0 110px rgba(11, 9, 18, .012);
+      animation: spin 48s linear infinite;
     }
 
-    .vpn-section::after {
-      bottom: -33%;
-      left: -15%;
-      width: 54%;
+    .portal-zone::after {
+      bottom: -45%;
+      left: -18%;
+      width: 62%;
       aspect-ratio: 1;
-      border: 1px dashed rgba(151, 243, 255, .07);
-      box-shadow: 0 0 90px rgba(151, 243, 255, .03);
-      animation: spin 48s linear infinite reverse;
+      border: 1px solid rgba(101, 71, 203, .08);
+      box-shadow: 0 0 100px rgba(101, 71, 203, .08);
+      animation: breathe 8s ease-in-out infinite;
     }
 
-    .motion-word {
+    .kinetic-word {
       position: absolute;
       z-index: 0;
       left: 50%;
@@ -376,79 +372,28 @@
       letter-spacing: -.08em;
       line-height: .8;
       text-transform: uppercase;
-      -webkit-text-stroke: 1px rgba(255, 255, 255, .065);
+      -webkit-text-stroke: 1px rgba(11, 9, 18, .075);
       pointer-events: none;
       user-select: none;
       transform: translateX(-50%);
     }
 
-    .motion-word--top {
-      top: 12%;
-      animation: wordDrift 13s ease-in-out infinite alternate;
+    .kinetic-word--one {
+      top: 10%;
+      animation: wordDrift 14s ease-in-out infinite alternate;
     }
 
-    .motion-word--bottom {
+    .kinetic-word--two {
       bottom: 10%;
-      opacity: .6;
-      animation: wordDrift 16s -5s ease-in-out infinite alternate-reverse;
-    }
-
-    .motion-marquee {
-      position: absolute;
-      z-index: 2;
-      right: 0;
-      left: 0;
-      overflow: hidden;
-      border-block: 1px solid rgba(255, 255, 255, .07);
-      background: rgba(255, 255, 255, .018);
-      color: rgba(255, 255, 255, .29);
-      pointer-events: none;
-      transform: rotate(-1deg) scale(1.02);
-    }
-
-    .motion-marquee--top {
-      top: 30px;
-    }
-
-    .motion-marquee--bottom {
-      bottom: 30px;
-      transform: rotate(1deg) scale(1.02);
-    }
-
-    .marquee-track {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      width: max-content;
-      padding: 10px 0;
-      animation: marquee 28s linear infinite;
-    }
-
-    .motion-marquee--bottom .marquee-track {
-      animation-direction: reverse;
-      animation-duration: 34s;
-    }
-
-    .marquee-track span {
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .marquee-track i {
-      color: var(--lilac);
-      font-style: normal;
+      animation: wordDrift 17s -6s ease-in-out infinite alternate-reverse;
     }
 
     .energy-map {
       position: absolute;
       z-index: 1;
-      inset: 8% 5%;
+      inset: 5%;
       width: 90%;
-      height: 84%;
-      overflow: visible;
+      height: 90%;
       pointer-events: none;
     }
 
@@ -457,102 +402,49 @@
       stroke-linecap: round;
     }
 
-    .energy-path--soft {
-      stroke: rgba(207, 194, 255, .11);
+    .path-soft {
+      stroke: rgba(101, 71, 203, .13);
       stroke-width: 1;
-      stroke-dasharray: 4 12;
-      animation: dash 20s linear infinite;
+      stroke-dasharray: 4 13;
+      animation: dash 22s linear infinite;
     }
 
-    .energy-path--glow {
-      stroke: url(#energyGradient);
+    .path-glow {
+      stroke: url(#portalGradient);
       stroke-width: 2;
-      stroke-dasharray: 2 90;
-      filter: drop-shadow(0 0 7px rgba(166, 140, 255, .85));
+      stroke-dasharray: 2 100;
+      filter: drop-shadow(0 0 7px rgba(101, 71, 203, .45));
       animation: dash 8s linear infinite reverse;
     }
 
-    .floating-rune {
+    .orbit,
+    .orbit::before,
+    .orbit::after {
       position: absolute;
-      z-index: 6;
-      display: grid;
-      width: 46px;
-      height: 46px;
-      place-items: center;
-      border: 1px solid rgba(255, 255, 255, .11);
-      border-radius: 15px;
-      background: rgba(255, 255, 255, .035);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, .18);
-      color: var(--lilac);
-      font-size: 16px;
-      pointer-events: none;
-      backdrop-filter: blur(12px);
-      animation: runeFloat 6s ease-in-out infinite;
-    }
-
-    .rune--one {
-      top: 23%;
-      left: 10%;
-    }
-
-    .rune--two {
-      top: 43%;
-      right: 9%;
-      width: 38px;
-      height: 38px;
       border-radius: 50%;
-      color: var(--pink);
-      animation-delay: -2s;
-    }
-
-    .rune--three {
-      bottom: 19%;
-      left: 16%;
-      width: 34px;
-      height: 34px;
-      color: var(--cyan);
-      animation-delay: -4s;
-    }
-
-    .app-stage {
-      position: relative;
-      z-index: 4;
-      display: grid;
-      width: 100%;
-      min-height: 690px;
-      place-items: center;
-      perspective: 1200px;
-    }
-
-    .app-float {
-      position: relative;
-      z-index: 4;
-      animation: appLevitate 6s ease-in-out infinite;
+      pointer-events: none;
     }
 
     .orbit {
-      position: absolute;
-      width: min(46vw, 620px);
-      min-width: 470px;
+      z-index: 2;
+      width: min(48vw, 600px);
+      min-width: 450px;
       aspect-ratio: 1;
-      border: 1px dashed rgba(207, 194, 255, .14);
-      border-radius: 50%;
+      border: 1px dashed rgba(101, 71, 203, .18);
       animation: spin 36s linear infinite;
     }
 
-    .orbit--secondary {
-      width: min(58vw, 760px);
-      min-width: 590px;
+    .orbit--outer {
+      width: min(61vw, 760px);
+      min-width: 580px;
       border-style: solid;
-      border-color: rgba(151, 243, 255, .055);
-      animation-duration: 52s;
+      border-color: rgba(11, 9, 18, .065);
+      animation-duration: 55s;
       animation-direction: reverse;
     }
 
     .orbit::before,
     .orbit::after {
-      position: absolute;
-      border-radius: 50%;
       content: "";
     }
 
@@ -561,183 +453,105 @@
       right: 10%;
       width: 9px;
       height: 9px;
-      background: var(--pink);
-      box-shadow: 0 0 18px var(--pink);
+      background: var(--violet-deep);
+      box-shadow: 0 0 18px rgba(101, 71, 203, .65);
     }
 
     .orbit::after {
-      bottom: 5%;
-      left: 28%;
-      width: 6px;
-      height: 6px;
-      background: var(--cyan);
-      box-shadow: 0 0 16px var(--cyan);
+      bottom: 4%;
+      left: 27%;
+      width: 7px;
+      height: 7px;
+      background: #64b7be;
+      box-shadow: 0 0 17px rgba(100, 183, 190, .65);
     }
 
-    .app-card {
+    .control-wrap {
       position: relative;
-      z-index: 3;
-      width: min(370px, 100%);
-      min-height: 540px;
-      padding: 24px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, .16);
-      border-radius: 38px;
-      background: linear-gradient(
-        160deg,
-        rgba(255, 255, 255, .13),
-        rgba(255, 255, 255, .045) 45%,
-        rgba(147, 117, 244, .08)
-      );
-      box-shadow:
-        0 50px 100px rgba(0, 0, 0, .4),
-        inset 0 1px 0 rgba(255, 255, 255, .16);
-      color: var(--paper);
-      transform: rotateY(-4deg) rotateX(2deg);
-      transform-style: preserve-3d;
-      backdrop-filter: blur(26px) saturate(120%);
-      transition: transform .2s ease-out, border-color .4s ease;
+      z-index: 8;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      animation: levitate 6s ease-in-out infinite;
     }
 
-    .app-card::after {
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: linear-gradient(
-        110deg,
-        transparent 25%,
-        rgba(255, 255, 255, .07) 42%,
-        transparent 60%
-      );
-      content: "";
-      pointer-events: none;
-      transform: translateX(-100%);
-      animation: sheen 8s 2s ease-in-out infinite;
+    .power-shell {
+      position: relative;
+      display: grid;
+      width: clamp(230px, 24vw, 310px);
+      aspect-ratio: 1;
+      place-items: center;
     }
 
-    .card-glow {
+    .ripple {
       position: absolute;
-      top: 22%;
-      left: 50%;
-      width: 290px;
-      height: 290px;
+      width: 78%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(101, 71, 203, .22);
       border-radius: 50%;
-      background: rgba(123, 91, 255, .25);
-      filter: blur(60px);
-      transform: translateX(-50%);
-      transition: background .6s ease;
+      animation: ripple 3s ease-out infinite;
     }
 
-    .app-card.is-connected {
-      border-color: rgba(220, 255, 104, .25);
-    }
-
-    .app-card.is-connected .card-glow {
-      background: rgba(106, 235, 179, .2);
-    }
-
-    .app-bar {
-      position: relative;
-      z-index: 4;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .app-brand {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .app-logo {
-      display: grid;
-      width: 31px;
-      height: 31px;
-      place-items: center;
-      border-radius: 10px;
-      background: linear-gradient(
-        135deg,
-        var(--lilac),
-        var(--violet-deep)
-      );
-      box-shadow: 0 6px 18px rgba(117, 87, 255, .35);
-      color: var(--ink);
-    }
-
-    .app-menu {
-      border: 0;
-      background: transparent;
-      color: rgba(255, 255, 255, .42);
-      letter-spacing: 2px;
-    }
-
-    .portal-wrap {
-      position: relative;
-      display: grid;
-      height: 300px;
-      place-items: center;
+    .ripple--two {
+      animation-delay: 1.5s;
     }
 
     .power-button {
       position: relative;
-      z-index: 3;
+      z-index: 4;
       display: grid;
-      width: 164px;
-      height: 164px;
+      width: 64%;
+      aspect-ratio: 1;
       place-items: center;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, .28);
+      border: 1px solid rgba(255, 255, 255, .22);
       border-radius: 50%;
       background: radial-gradient(
-        circle at 36% 28%,
-        #d8d0ff 0%,
-        #987dfa 28%,
-        #6045de 55%,
-        #302465 100%
+        circle at 35% 27%,
+        #393040,
+        #17131d 58%,
+        #09080c 100%
       );
       box-shadow:
-        0 0 0 12px rgba(166, 140, 255, .08),
-        0 0 65px rgba(117, 87, 255, .65),
-        inset -16px -20px 36px rgba(31, 18, 77, .6),
-        inset 12px 10px 35px rgba(255, 255, 255, .28);
-      color: white;
+        0 0 0 14px rgba(101, 71, 203, .07),
+        0 25px 70px rgba(58, 39, 115, .28),
+        inset 12px 10px 34px rgba(255, 255, 255, .09),
+        inset -17px -20px 35px rgba(0, 0, 0, .5);
+      color: var(--paper);
       cursor: pointer;
-      animation: portalFloat 4s ease-in-out infinite;
       transition:
         filter .4s ease,
+        background .6s ease,
         box-shadow .6s ease,
-        background .6s ease;
+        scale .35s var(--spring);
     }
 
     .power-button:hover {
-      filter: saturate(120%) brightness(1.08);
+      filter: brightness(1.12);
+      scale: 1.035;
     }
 
     .power-button:active {
-      scale: .96;
+      scale: .965;
     }
 
-    .power-button:focus-visible,
-    .header-connect:focus-visible {
-      outline: 3px solid var(--lime);
-      outline-offset: 5px;
+    .power-button:focus-visible {
+      outline: 4px solid var(--lime);
+      outline-offset: 7px;
     }
 
-    .power-noise {
+    .power-shimmer {
       position: absolute;
-      inset: -35%;
-      opacity: .32;
+      inset: -40%;
+      opacity: .35;
       background: conic-gradient(
-        from 40deg,
+        from 30deg,
         transparent,
-        rgba(255, 255, 255, .4),
-        transparent 32%,
-        rgba(98, 231, 255, .3),
+        rgba(207, 194, 255, .45),
+        transparent 30%,
+        rgba(140, 234, 244, .35),
         transparent 58%,
-        rgba(255, 156, 232, .3),
+        rgba(255, 156, 232, .32),
         transparent
       );
       animation: spin 8s linear infinite;
@@ -747,174 +561,171 @@
       position: relative;
       z-index: 2;
       display: grid;
-      width: 70px;
-      height: 70px;
+      width: 44%;
+      aspect-ratio: 1;
       place-items: center;
-      border: 1px solid rgba(255, 255, 255, .27);
+      border: 1px solid rgba(255, 255, 255, .16);
       border-radius: 50%;
-      background: rgba(27, 18, 61, .34);
-      box-shadow: inset 0 0 30px rgba(255, 255, 255, .08);
-      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, .04);
+      backdrop-filter: blur(10px);
     }
 
     .power-core svg {
-      width: 32px;
-      height: 32px;
+      width: 38%;
+      height: 38%;
     }
 
-    .ripple {
-      position: absolute;
-      width: 190px;
-      height: 190px;
-      border: 1px solid rgba(192, 178, 255, .27);
-      border-radius: 50%;
-      animation: ripple 3s ease-out infinite;
-    }
-
-    .ripple--two {
-      animation-delay: 1.5s;
-    }
-
-    .app-card.is-connected .power-button {
+    .control-wrap.is-connected .power-button {
       background: radial-gradient(
-        circle at 36% 28%,
-        #f0ffc4 0%,
-        #b9ed64 30%,
-        #62c9a7 65%,
-        #235f59 100%
+        circle at 35% 27%,
+        #eaffb1,
+        #76c99f 52%,
+        #265d54 100%
       );
       box-shadow:
-        0 0 0 12px rgba(220, 255, 104, .08),
-        0 0 72px rgba(127, 246, 186, .48),
-        inset -16px -20px 36px rgba(19, 78, 65, .48),
-        inset 12px 10px 35px rgba(255, 255, 255, .3);
+        0 0 0 14px rgba(117, 184, 77, .08),
+        0 25px 75px rgba(70, 154, 117, .35),
+        inset 12px 10px 34px rgba(255, 255, 255, .22),
+        inset -17px -20px 35px rgba(21, 83, 68, .4);
     }
 
-    .app-card.is-connected .ripple {
-      border-color: rgba(220, 255, 104, .38);
+    .control-wrap.is-connected .ripple {
+      border-color: rgba(117, 184, 77, .35);
     }
 
-    .connection-copy {
-      position: relative;
-      z-index: 4;
+    .control-status {
       display: flex;
       align-items: center;
-      margin-top: -5px;
+      margin-top: 2px;
+      text-align: center;
       flex-direction: column;
     }
 
-    .connection-status {
-      font-size: 15px;
-      font-weight: 800;
-      text-align: center;
+    .status-title {
+      font-family: var(--display);
+      font-size: clamp(15px, 1.6vw, 20px);
+      font-weight: 600;
+      letter-spacing: -.04em;
     }
 
-    .connection-subtitle {
-      margin-top: 6px;
-      color: rgba(255, 255, 255, .44);
+    .status-subtitle {
+      margin-top: 7px;
+      color: rgba(11, 9, 18, .47);
       font-size: 10px;
-      text-align: center;
-    }
-
-    .route-card {
-      position: relative;
-      z-index: 4;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 11px;
-      margin-top: 27px;
-      padding: 15px;
-      border: 1px solid rgba(255, 255, 255, .09);
-      border-radius: 16px;
-      background: rgba(255, 255, 255, .05);
-    }
-
-    .route-icon {
-      display: grid;
-      width: 35px;
-      height: 35px;
-      place-items: center;
-      border-radius: 11px;
-      background: rgba(255, 255, 255, .08);
-      color: var(--lilac);
-    }
-
-    .route-copy {
-      display: flex;
-      flex-direction: column;
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .route-copy small {
-      margin-bottom: 4px;
-      color: rgba(255, 255, 255, .42);
-      font-size: 8px;
-      font-weight: 500;
-    }
-
-    .route-state {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      color: rgba(255, 255, 255, .5);
-      font-size: 8px;
-    }
-
-    .route-state i {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--lime);
-      box-shadow: 0 0 9px var(--lime);
     }
 
     .floating-chip {
       position: absolute;
-      z-index: 5;
+      z-index: 7;
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 12px 14px;
-      border: 1px solid rgba(255, 255, 255, .13);
+      border: 1px solid rgba(11, 9, 18, .1);
       border-radius: 15px;
-      background: rgba(23, 19, 35, .76);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, .28);
-      color: var(--paper);
-      font-size: 10px;
-      font-weight: 700;
-      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, .46);
+      box-shadow: 0 18px 45px rgba(65, 47, 107, .1);
+      color: rgba(11, 9, 18, .7);
+      font-size: 9px;
+      font-weight: 800;
+      pointer-events: none;
+      backdrop-filter: blur(18px);
       animation: chipFloat 5s ease-in-out infinite;
     }
 
     .floating-chip small {
       display: block;
       margin-bottom: 3px;
-      color: rgba(255, 255, 255, .42);
-      font-size: 8px;
-      font-weight: 500;
+      color: rgba(11, 9, 18, .38);
+      font-size: 7px;
+      font-weight: 600;
     }
 
-    .floating-chip--top {
-      top: 14%;
-      right: 12%;
-    }
-
-    .floating-chip--bottom {
-      bottom: 14%;
-      left: 11%;
-      animation-delay: -2.2s;
-    }
-
-    .chip-symbol {
+    .chip-icon {
       display: grid;
       width: 30px;
       height: 30px;
       place-items: center;
       border-radius: 10px;
-      background: rgba(166, 140, 255, .14);
+      background: var(--ink);
       color: var(--lilac);
+    }
+
+    .chip--one {
+      top: 20%;
+      right: 12%;
+    }
+
+    .chip--two {
+      bottom: 19%;
+      left: 11%;
+      animation-delay: -2.3s;
+    }
+
+    .floating-star {
+      position: absolute;
+      z-index: 6;
+      color: var(--violet-deep);
+      pointer-events: none;
+      animation: starFloat 5s ease-in-out infinite;
+    }
+
+    .star--one {
+      top: 19%;
+      left: 14%;
+      font-size: 27px;
+    }
+
+    .star--two {
+      right: 17%;
+      bottom: 20%;
+      color: #5aa8af;
+      font-size: 19px;
+      animation-delay: -2s;
+    }
+
+    .star--three {
+      top: 42%;
+      right: 8%;
+      color: var(--pink);
+      font-size: 15px;
+      animation-delay: -3.5s;
+    }
+
+    .ticker {
+      position: absolute;
+      z-index: 3;
+      right: 0;
+      bottom: 24px;
+      left: 0;
+      overflow: hidden;
+      border-block: 1px solid rgba(11, 9, 18, .075);
+      background: rgba(255, 255, 255, .13);
+      color: rgba(11, 9, 18, .36);
+      pointer-events: none;
+      transform: rotate(1deg) scale(1.02);
+    }
+
+    .ticker-track {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      width: max-content;
+      padding: 10px 0;
+      animation: ticker 30s linear infinite;
+    }
+
+    .ticker-track span {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .ticker-track i {
+      color: var(--violet-deep);
+      font-style: normal;
     }
 
     .toast {
@@ -952,22 +763,71 @@
       color: var(--lilac);
     }
 
-    @keyframes ambient {
+    @keyframes titleIn {
       to {
-        transform: translate(8vw, 9vh) scale(1.15);
+        opacity: 1;
+        transform: translateY(0) rotate(0);
       }
     }
 
-    @keyframes slowPulse {
+    @keyframes rise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes morph {
       0%,
       100% {
-        opacity: .45;
-        transform: scale(.96);
+        border-radius: 44% 56% 48% 52% / 52% 42% 58% 48%;
       }
 
       50% {
-        opacity: 1;
-        transform: scale(1.05);
+        border-radius: 58% 42% 57% 43% / 42% 59% 41% 58%;
+      }
+    }
+
+    @keyframes glowFloat {
+      to {
+        transform: translate(80px, -50px) scale(1.13);
+      }
+    }
+
+    @keyframes markFloat {
+      0%,
+      100% {
+        transform: rotate(0) scale(1);
+      }
+
+      50% {
+        transform: rotate(90deg) scale(1.08);
+      }
+    }
+
+    @keyframes ping {
+      0% {
+        opacity: .8;
+        transform: scale(.7);
+      }
+
+      80%,
+      100% {
+        opacity: 0;
+        transform: scale(1.8);
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes breathe {
+      50% {
+        opacity: .45;
+        transform: scale(1.08);
       }
     }
 
@@ -981,99 +841,27 @@
       }
     }
 
-    @keyframes marquee {
-      to {
-        transform: translateX(-50%);
-      }
-    }
-
     @keyframes dash {
       to {
-        stroke-dashoffset: -360;
+        stroke-dashoffset: -380;
       }
     }
 
-    @keyframes runeFloat {
-      0%,
-      100% {
-        opacity: .5;
-        transform: translateY(0) rotate(-4deg);
-      }
-
-      50% {
-        opacity: 1;
-        transform: translateY(-18px) rotate(8deg) scale(1.08);
-      }
-    }
-
-    @keyframes appLevitate {
+    @keyframes levitate {
       0%,
       100% {
         transform: translateY(0);
       }
 
       50% {
-        transform: translateY(-12px);
-      }
-    }
-
-    @keyframes morph {
-      0%,
-      100% {
-        border-radius: 44% 56% 48% 52% / 55% 45% 55% 45%;
-      }
-
-      50% {
-        border-radius: 58% 42% 58% 42% / 42% 60% 40% 58%;
-      }
-    }
-
-    @keyframes twinkle {
-      0%,
-      100% {
-        opacity: .55;
-        transform: scale(.8) rotate(0);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scale(1.25) rotate(45deg);
-      }
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes sheen {
-      0%,
-      65% {
-        transform: translateX(-120%);
-      }
-
-      85%,
-      100% {
-        transform: translateX(120%);
-      }
-    }
-
-    @keyframes portalFloat {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-8px);
+        transform: translateY(-13px);
       }
     }
 
     @keyframes ripple {
       0% {
         opacity: 0;
-        transform: scale(.7);
+        transform: scale(.68);
       }
 
       25% {
@@ -1082,213 +870,208 @@
 
       100% {
         opacity: 0;
-        transform: scale(1.42);
+        transform: scale(1.52);
       }
     }
 
     @keyframes chipFloat {
       0%,
       100% {
-        transform: translateY(0);
+        transform: translateY(0) rotate(1deg);
       }
 
       50% {
-        transform: translateY(-10px);
+        transform: translateY(-11px) rotate(-2deg);
       }
     }
 
-    @media (max-width: 950px) {
-      .vpn-section {
-        min-height: 760px;
-        padding: 35px 20px;
+    @keyframes starFloat {
+      0%,
+      100% {
+        opacity: .45;
+        transform: translate(0, 0) rotate(0) scale(.85);
       }
 
-      .app-stage {
-        width: 100%;
-        min-height: 680px;
-      }
-
-      .floating-chip--top {
-        right: 7%;
-      }
-
-      .floating-chip--bottom {
-        left: 6%;
+      50% {
+        opacity: 1;
+        transform: translate(10px, -15px) rotate(90deg) scale(1.18);
       }
     }
 
-    @media (max-width: 760px) {
-      .site-bar {
-        min-height: 60px;
-        padding: 8px 8px 8px 15px;
-        border-radius: 17px;
+    @keyframes ticker {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 850px) {
+      .hero-copy {
+        grid-template-columns: 1fr;
+        gap: 22px;
       }
 
-      .header-connect {
-        min-height: 42px;
-        padding-inline: 14px;
-        font-size: 9px;
+      .hero-side {
+        max-width: 540px;
+      }
+
+      .portal-zone {
+        min-height: 570px;
+      }
+
+      .chip--one {
+        right: 6%;
+      }
+
+      .chip--two {
+        left: 5%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      :root {
+        --tg-top: calc(
+          max(24px, env(safe-area-inset-top, 0px)) +
+          var(--tg-safe-area-inset-top, 0px) +
+          var(--tg-content-safe-area-inset-top, 0px)
+        );
       }
 
       .page {
-        padding: 82px 8px 8px;
+        padding-inline: 8px;
       }
 
-      .manifesto-strip {
-        grid-template-columns: 1fr;
-        gap: 14px;
-        min-height: 220px;
-        padding: 30px 24px;
-        border-radius: 27px;
+      .freedom-card {
+        padding: 20px 17px 17px;
+        border-radius: 28px;
       }
 
-      .manifesto-strip::before {
-        top: -145px;
-        right: -75px;
+      .freedom-card::before {
+        top: -190px;
+        right: -190px;
+        width: 430px;
+        height: 430px;
       }
 
-      .vpn-section {
-        min-height: 730px;
-        padding: 32px 17px;
-        border-radius: 27px;
-      }
-
-      .motion-marquee--top {
-        top: 20px;
-      }
-
-      .motion-marquee--bottom {
-        bottom: 20px;
-      }
-
-      .motion-word {
-        font-size: clamp(74px, 22vw, 150px);
-      }
-
-      .app-stage {
-        min-height: 650px;
-      }
-
-      .app-card {
-        width: min(350px, 92vw);
-      }
-
-      .orbit {
-        width: min(82vw, 560px);
-        min-width: 390px;
-      }
-
-      .floating-chip--top {
-        right: 0;
-      }
-
-      .floating-chip--bottom {
-        left: 0;
-      }
-    }
-
-    @media (max-width: 460px) {
       .brand {
         gap: 7px;
         font-size: 11px;
       }
 
       .brand-mark {
-        width: 29px;
-        height: 29px;
+        width: 30px;
+        height: 30px;
         border-radius: 9px;
       }
 
-      .header-connect {
-        gap: 6px;
-        min-height: 39px;
-        padding-inline: 10px;
-        border-radius: 12px;
-        font-size: 8px;
+      .free-pill {
+        padding: 8px 10px;
+        font-size: 7px;
       }
 
-      .manifesto-strip {
-        min-height: 205px;
-        padding: 26px 20px;
+      .hero-copy {
+        margin-top: 62px;
       }
 
-      .manifesto-title {
-        font-size: clamp(25px, 8vw, 36px);
+      .hero-title {
+        font-size: clamp(42px, 12.4vw, 64px);
       }
 
-      .manifesto-star {
-        top: 17px;
-        right: 18px;
-        font-size: 18px;
+      .hero-side p {
+        font-size: 13px;
       }
 
-      .vpn-section {
-        min-height: 690px;
-        padding: 25px 10px;
+      .portal-zone {
+        min-height: 540px;
+        margin-top: 48px;
+        border-radius: 25px;
       }
 
-      .motion-word {
-        font-size: 25vw;
+      .kinetic-word {
+        font-size: 24vw;
       }
 
-      .motion-word--top {
-        top: 17%;
+      .kinetic-word--one {
+        top: 15%;
       }
 
-      .motion-word--bottom {
-        bottom: 16%;
+      .kinetic-word--two {
+        bottom: 15%;
       }
 
-      .app-stage {
-        min-height: 610px;
+      .orbit {
+        width: 420px;
+        min-width: 420px;
       }
 
-      .floating-rune {
-        scale: .78;
+      .orbit--outer {
+        width: 540px;
+        min-width: 540px;
       }
 
-      .rune--one {
-        left: 1%;
-      }
-
-      .rune--two {
-        right: 1%;
-      }
-
-      .app-card {
-        width: min(325px, 94vw);
-        min-height: 500px;
-        padding: 20px;
-        border-radius: 33px;
-      }
-
-      .portal-wrap {
-        height: 270px;
-      }
-
-      .power-button {
-        width: 145px;
-        height: 145px;
-      }
-
-      .ripple {
-        width: 170px;
-        height: 170px;
+      .power-shell {
+        width: 235px;
       }
 
       .floating-chip {
-        padding: 10px 11px;
+        padding: 9px 10px;
         scale: .88;
       }
 
-      .floating-chip--top {
-        top: 9%;
-        right: -6%;
+      .chip--one {
+        top: 13%;
+        right: -7%;
       }
 
-      .floating-chip--bottom {
-        bottom: 7%;
-        left: -6%;
+      .chip--two {
+        bottom: 13%;
+        left: -8%;
+      }
+
+      .star--one {
+        top: 22%;
+        left: 6%;
+      }
+
+      .star--two {
+        right: 7%;
+        bottom: 22%;
+      }
+
+      .star--three {
+        display: none;
+      }
+
+      .ticker {
+        bottom: 17px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .free-pill span:last-child {
+        display: none;
+      }
+
+      .free-pill {
+        width: 31px;
+        height: 31px;
+        padding: 0;
+        justify-content: center;
+      }
+
+      .hero-title {
+        font-size: 11.7vw;
+      }
+
+      .portal-zone {
+        min-height: 510px;
+      }
+
+      .power-shell {
+        width: 215px;
+      }
+
+      .status-title {
+        font-size: 14px;
       }
     }
 
@@ -1306,205 +1089,152 @@
 
 <body>
   <div class="noise" aria-hidden="true"></div>
-  <div class="ambient ambient--one" aria-hidden="true"></div>
-  <div class="ambient ambient--two" aria-hidden="true"></div>
   <canvas id="stardust" aria-hidden="true"></canvas>
 
-  <header class="site-bar">
-    <div class="brand">
-      <span class="brand-mark" aria-hidden="true">✦</span>
-      <span>сказочный<span class="brand-dot">.</span>vpn</span>
-    </div>
-
-    <button
-      class="header-connect"
-      type="button"
-      data-add-subscription
-    >
-      <span data-header-label>Добавить подписку</span>
-      <span class="header-arrow" aria-hidden="true">↗</span>
-    </button>
-  </header>
-
   <main class="page">
-    <aside class="manifesto-strip" aria-label="Наша идея">
-      <span class="manifesto-star" aria-hidden="true">✦</span>
+    <section class="freedom-card" aria-labelledby="main-title">
+      <div class="meta-row">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span>сказочный<span class="brand-dot">.</span>vpn</span>
+        </div>
 
-      <h2 class="manifesto-title">
-        Интернет задумывался <em>свободным.</em>
-      </h2>
+        <div class="free-pill">
+          <i aria-hidden="true"></i>
+          <span>Бесплатный доступ</span>
+        </div>
+      </div>
 
-      <p class="manifesto-copy">
-        Мы просто помогаем ему оставаться таким — без сложных
-        настроек и лишних препятствий.
+      <div class="hero-copy">
+        <h1 class="hero-title" id="main-title">
+          <span class="title-line">
+            <span>Интернет задумывался</span>
+          </span>
 
-        <span class="manifesto-sign">
-          Сказочный VPN · с заботой о свободе
+          <span class="title-line">
+            <span>свободным.</span>
+          </span>
+        </h1>
+
+        <div class="hero-side">
+          <p>
+            Мы просто помогаем ему оставаться таким — без сложных
+            настроек, лишнего шума и препятствий.
+          </p>
+
+          <span class="signature">
+            С заботой о свободе
+          </span>
+        </div>
+      </div>
+
+      <div class="portal-zone" data-portal-zone>
+        <div
+          class="kinetic-word kinetic-word--one"
+          aria-hidden="true"
+        >
+          свобода
+        </div>
+
+        <div
+          class="kinetic-word kinetic-word--two"
+          aria-hidden="true"
+        >
+          интернет
+        </div>
+
+        <svg
+          class="energy-map"
+          viewBox="0 0 1000 600"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient
+              id="portalGradient"
+              x1="0"
+              y1="0"
+              x2="1"
+              y2="1"
+            >
+              <stop
+                offset="0"
+                stop-color="#8ceaf4"
+              ></stop>
+
+              <stop
+                offset=".5"
+                stop-color="#8f70ee"
+              ></stop>
+
+              <stop
+                offset="1"
+                stop-color="#ff9ce8"
+              ></stop>
+            </linearGradient>
+          </defs>
+
+          <path
+            class="path-soft"
+            d="M-50 440C170 80 340 560 520 300S810 50 1060 230"
+          ></path>
+
+          <path
+            class="path-soft"
+            d="M-50 150C170 420 350 30 550 260S810 560 1060 350"
+          ></path>
+
+          <path
+            class="path-glow"
+            d="M-50 440C170 80 340 560 520 300S810 50 1060 230"
+          ></path>
+
+          <path
+            class="path-glow"
+            d="M-50 150C170 420 350 30 550 260S810 560 1060 350"
+          ></path>
+        </svg>
+
+        <div
+          class="orbit orbit--inner"
+          aria-hidden="true"
+        ></div>
+
+        <div
+          class="orbit orbit--outer"
+          aria-hidden="true"
+        ></div>
+
+        <span
+          class="floating-star star--one"
+          data-parallax="18"
+          aria-hidden="true"
+        >
+          ✦
         </span>
-      </p>
-    </aside>
 
-    <section
-      class="vpn-section"
-      aria-label="Приложение Сказочного VPN"
-    >
-      <div
-        class="motion-word motion-word--top"
-        aria-hidden="true"
-      >
-        свобода
-      </div>
-
-      <div
-        class="motion-word motion-word--bottom"
-        aria-hidden="true"
-      >
-        интернет
-      </div>
-
-      <div
-        class="motion-marquee motion-marquee--top"
-        aria-hidden="true"
-      >
-        <div class="marquee-track">
-          <span>Сказочный VPN</span>
-          <i>✦</i>
-          <span>Бесплатный доступ</span>
-          <i>✦</i>
-          <span>Одно касание</span>
-          <i>✦</i>
-          <span>Открытый интернет</span>
-          <i>✦</i>
-
-          <span>Сказочный VPN</span>
-          <i>✦</i>
-          <span>Бесплатный доступ</span>
-          <i>✦</i>
-          <span>Одно касание</span>
-          <i>✦</i>
-          <span>Открытый интернет</span>
-          <i>✦</i>
-        </div>
-      </div>
-
-      <div
-        class="motion-marquee motion-marquee--bottom"
-        aria-hidden="true"
-      >
-        <div class="marquee-track">
-          <span>Добавить в INCY</span>
-          <i>✦</i>
-          <span>Умный маршрут</span>
-          <i>✦</i>
-          <span>Без сложных настроек</span>
-          <i>✦</i>
-          <span>0 ₽</span>
-          <i>✦</i>
-
-          <span>Добавить в INCY</span>
-          <i>✦</i>
-          <span>Умный маршрут</span>
-          <i>✦</i>
-          <span>Без сложных настроек</span>
-          <i>✦</i>
-          <span>0 ₽</span>
-          <i>✦</i>
-        </div>
-      </div>
-
-      <svg
-        class="energy-map"
-        viewBox="0 0 1000 650"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <defs>
-          <linearGradient
-            id="energyGradient"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="1"
-          >
-            <stop
-              offset="0"
-              stop-color="#97f3ff"
-            ></stop>
-
-            <stop
-              offset=".5"
-              stop-color="#cfc2ff"
-            ></stop>
-
-            <stop
-              offset="1"
-              stop-color="#ff9ce8"
-            ></stop>
-          </linearGradient>
-        </defs>
-
-        <path
-          class="energy-path--soft"
-          d="M-50 480C160 120 335 590 515 315S790 40 1060 250"
-        ></path>
-
-        <path
-          class="energy-path--soft"
-          d="M-40 180C180 430 320 40 540 270S810 610 1060 360"
-        ></path>
-
-        <path
-          class="energy-path--glow"
-          d="M-50 480C160 120 335 590 515 315S790 40 1060 250"
-        ></path>
-
-        <path
-          class="energy-path--glow"
-          d="M-40 180C180 430 320 40 540 270S810 610 1060 360"
-        ></path>
-      </svg>
-
-      <span
-        class="floating-rune rune--one"
-        data-parallax="18"
-        aria-hidden="true"
-      >
-        ✦
-      </span>
-
-      <span
-        class="floating-rune rune--two"
-        data-parallax="-22"
-        aria-hidden="true"
-      >
-        ✧
-      </span>
-
-      <span
-        class="floating-rune rune--three"
-        data-parallax="13"
-        aria-hidden="true"
-      >
-        •
-      </span>
-
-      <div class="app-stage">
-        <div
-          class="orbit orbit--primary"
+        <span
+          class="floating-star star--two"
+          data-parallax="-15"
           aria-hidden="true"
-        ></div>
+        >
+          ✧
+        </span>
 
-        <div
-          class="orbit orbit--secondary"
+        <span
+          class="floating-star star--three"
+          data-parallax="12"
           aria-hidden="true"
-        ></div>
+        >
+          ✦
+        </span>
 
         <div
-          class="floating-chip floating-chip--top"
+          class="floating-chip chip--one"
           data-parallax="16"
           aria-hidden="true"
         >
-          <span class="chip-symbol">✦</span>
+          <span class="chip-icon">✦</span>
 
           <span>
             <small>Статус</small>
@@ -1513,11 +1243,11 @@
         </div>
 
         <div
-          class="floating-chip floating-chip--bottom"
+          class="floating-chip chip--two"
           data-parallax="-14"
           aria-hidden="true"
         >
-          <span class="chip-symbol">in</span>
+          <span class="chip-icon">in</span>
 
           <span>
             <small>Приложение</small>
@@ -1525,105 +1255,84 @@
           </span>
         </div>
 
-        <div class="app-float">
-          <article class="app-card" data-app-card>
-            <div class="card-glow" aria-hidden="true"></div>
+        <div class="control-wrap" data-control>
+          <div class="power-shell">
+            <div
+              class="ripple ripple--one"
+              aria-hidden="true"
+            ></div>
 
-            <div class="app-bar">
-              <div class="app-brand">
-                <span class="app-logo" aria-hidden="true">✦</span>
-                <span>Сказочный VPN</span>
-              </div>
+            <div
+              class="ripple ripple--two"
+              aria-hidden="true"
+            ></div>
 
-              <span class="app-menu" aria-hidden="true">
-                •••
-              </span>
-            </div>
-
-            <div class="portal-wrap">
-              <div
-                class="ripple ripple--one"
+            <button
+              class="power-button"
+              type="button"
+              data-add-subscription
+              aria-label="Добавить подписку Сказочного VPN в INCY"
+            >
+              <span
+                class="power-shimmer"
                 aria-hidden="true"
-              ></div>
+              ></span>
 
-              <div
-                class="ripple ripple--two"
-                aria-hidden="true"
-              ></div>
-
-              <button
-                class="power-button"
-                type="button"
-                data-add-subscription
-                aria-label="Добавить подписку Сказочного VPN в INCY"
-              >
-                <span
-                  class="power-noise"
+              <span class="power-core">
+                <svg
+                  viewBox="0 0 32 32"
+                  fill="none"
                   aria-hidden="true"
-                ></span>
+                >
+                  <path
+                    d="M16 4v12"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                  ></path>
 
-                <span class="power-core">
-                  <svg
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M16 4v12"
-                      stroke="currentColor"
-                      stroke-width="2.5"
-                      stroke-linecap="round"
-                    ></path>
-
-                    <path
-                      d="M9.25 8.7A10.5 10.5 0 1 0 22.8 8.6"
-                      stroke="currentColor"
-                      stroke-width="2.5"
-                      stroke-linecap="round"
-                    ></path>
-                  </svg>
-                </span>
-              </button>
-            </div>
-
-            <div class="connection-copy">
-              <span
-                class="connection-status"
-                data-status
-              >
-                Готов к приключениям
+                  <path
+                    d="M9.25 8.7A10.5 10.5 0 1 0 22.8 8.6"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                  ></path>
+                </svg>
               </span>
+            </button>
+          </div>
 
-              <span
-                class="connection-subtitle"
-                data-subtitle
-              >
-                Нажмите, чтобы добавить подписку
-              </span>
-            </div>
+          <div class="control-status">
+            <span class="status-title" data-status>
+              Добавить подписку
+            </span>
 
-            <div class="route-card">
-              <span
-                class="route-icon"
-                aria-hidden="true"
-              >
-                ☁
-              </span>
+            <span class="status-subtitle" data-subtitle>
+              Нажмите — профиль откроется в INCY
+            </span>
+          </div>
+        </div>
 
-              <span class="route-copy">
-                <small>Умный маршрут</small>
-                Ближайший портал
-              </span>
+        <div class="ticker" aria-hidden="true">
+          <div class="ticker-track">
+            <span>Сказочный VPN</span>
+            <i>✦</i>
+            <span>Одно касание</span>
+            <i>✦</i>
+            <span>Бесплатно</span>
+            <i>✦</i>
+            <span>Открытый интернет</span>
+            <i>✦</i>
 
-              <span class="route-state">
-                <i aria-hidden="true"></i>
-
-                <span data-route-state>
-                  готов
-                </span>
-              </span>
-            </div>
-          </article>
+            <span>Сказочный VPN</span>
+            <i>✦</i>
+            <span>Одно касание</span>
+            <i>✦</i>
+            <span>Бесплатно</span>
+            <i>✦</i>
+            <span>Открытый интернет</span>
+            <i>✦</i>
+          </div>
         </div>
       </div>
     </section>
@@ -1634,33 +1343,24 @@
     role="status"
     aria-live="polite"
   >
-    <span
-      class="toast-star"
-      aria-hidden="true"
-    >
-      ✦
-    </span>
-
+    <span class="toast-star" aria-hidden="true">✦</span>
     <span data-toast-copy></span>
   </div>
 
   <script>
     (() => {
-      const config = window.SKAZOCHNY_VPN_CONFIG || {};
-      const query = new URLSearchParams(window.location.search);
+      const config =
+        window.SKAZOCHNY_VPN_CONFIG || {};
 
-      const buttons = [
-        ...document.querySelectorAll(
-          "[data-add-subscription]"
-        )
-      ];
+      const query =
+        new URLSearchParams(window.location.search);
 
-      const headerLabel = document.querySelector(
-        "[data-header-label]"
+      const button = document.querySelector(
+        "[data-add-subscription]"
       );
 
-      const appCard = document.querySelector(
-        "[data-app-card]"
+      const control = document.querySelector(
+        "[data-control]"
       );
 
       const status = document.querySelector(
@@ -1671,22 +1371,22 @@
         "[data-subtitle]"
       );
 
-      const routeState = document.querySelector(
-        "[data-route-state]"
+      const toast = document.querySelector(
+        ".toast"
       );
-
-      const toast = document.querySelector(".toast");
 
       const toastCopy = document.querySelector(
         "[data-toast-copy]"
       );
 
-      const motionSection = document.querySelector(
-        ".vpn-section"
+      const portalZone = document.querySelector(
+        "[data-portal-zone]"
       );
 
       const parallaxItems = [
-        ...document.querySelectorAll("[data-parallax]")
+        ...document.querySelectorAll(
+          "[data-parallax]"
+        )
       ];
 
       const allowedProtocols = [
@@ -1739,17 +1439,7 @@
           "Вставьте ссылку подписки Сказочного VPN для добавления в INCY:"
         );
 
-        if (!entered) {
-          return "";
-        }
-
-        return entered.trim();
-      }
-
-      function setButtonsDisabled(disabled) {
-        buttons.forEach((button) => {
-          button.disabled = disabled;
-        });
+        return entered ? entered.trim() : "";
       }
 
       function addSubscription() {
@@ -1757,7 +1447,8 @@
           return;
         }
 
-        const value = requestSubscriptionUrl();
+        const value =
+          requestSubscriptionUrl();
 
         if (!value) {
           showToast(
@@ -1777,92 +1468,58 @@
 
         subscriptionUrl = value;
         busy = true;
+        button.disabled = true;
 
-        setButtonsDisabled(true);
+        status.textContent =
+          "Открываем INCY…";
 
-        headerLabel.textContent = "Открываем INCY…";
-        status.textContent = "Добавляем подписку…";
-        subtitle.textContent = "Открываем приложение INCY";
-        routeState.textContent = "импорт";
+        subtitle.textContent =
+          "Передаём подписку в приложение";
 
-        showToast("Передаём подписку в INCY…");
+        showToast(
+          "Добавляем Сказочный VPN в INCY…"
+        );
 
         setTimeout(() => {
-          appCard.classList.add("is-connected");
+          control.classList.add(
+            "is-connected"
+          );
 
-          status.textContent = "Подписка готова";
+          status.textContent =
+            "Подписка готова";
 
           subtitle.textContent =
             "Подтвердите добавление в INCY";
-
-          routeState.textContent = "готово";
-        }, 520);
+        }, 480);
 
         window.location.href =
           `incy://import/${subscriptionUrl}`;
 
         setTimeout(() => {
           busy = false;
-
-          setButtonsDisabled(false);
-
-          headerLabel.textContent =
-            "Добавить подписку";
+          button.disabled = false;
 
           showToast(
-            "Если INCY не открылся, установите приложение и нажмите кнопку снова."
+            "Если INCY не открылся, установите приложение и нажмите ещё раз."
           );
         }, 1900);
       }
 
-      buttons.forEach((button) => {
-        button.addEventListener(
-          "click",
-          addSubscription
-        );
-      });
+      button.addEventListener(
+        "click",
+        addSubscription
+      );
 
       if (
         matchMedia(
           "(hover: hover) and (prefers-reduced-motion: no-preference)"
         ).matches
       ) {
-        appCard.addEventListener(
+        portalZone.addEventListener(
           "pointermove",
           (event) => {
             const rect =
-              appCard.getBoundingClientRect();
-
-            const x =
-              (event.clientX - rect.left) /
-              rect.width -
-              .5;
-
-            const y =
-              (event.clientY - rect.top) /
-              rect.height -
-              .5;
-
-            appCard.style.transform =
-              `rotateY(${x * 10}deg) ` +
-              `rotateX(${-y * 9}deg) ` +
-              `translateZ(5px)`;
-          }
-        );
-
-        appCard.addEventListener(
-          "pointerleave",
-          () => {
-            appCard.style.transform =
-              "rotateY(-4deg) rotateX(2deg)";
-          }
-        );
-
-        motionSection.addEventListener(
-          "pointermove",
-          (event) => {
-            const rect =
-              motionSection.getBoundingClientRect();
+              portalZone.getBoundingClientRect();
 
             const x =
               (event.clientX - rect.left) /
@@ -1886,7 +1543,7 @@
           }
         );
 
-        motionSection.addEventListener(
+        portalZone.addEventListener(
           "pointerleave",
           () => {
             parallaxItems.forEach((item) => {
@@ -1900,7 +1557,8 @@
         "#stardust"
       );
 
-      const context = canvas.getContext("2d");
+      const context =
+        canvas.getContext("2d");
 
       const reduceMotion = matchMedia(
         "(prefers-reduced-motion: reduce)"
@@ -1922,8 +1580,12 @@
 
         canvas.width = width * dpr;
         canvas.height = height * dpr;
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
+
+        canvas.style.width =
+          `${width}px`;
+
+        canvas.style.height =
+          `${height}px`;
 
         context.setTransform(
           dpr,
@@ -1935,10 +1597,10 @@
         );
 
         const amount = Math.min(
-          70,
+          65,
           Math.max(
-            28,
-            Math.floor(width / 20)
+            25,
+            Math.floor(width / 21)
           )
         );
 
@@ -1951,7 +1613,7 @@
             y: Math.random() * height,
             r: Math.random() * 1.1 + .25,
             speed: Math.random() * .07 + .015,
-            alpha: Math.random() * .42 + .12,
+            alpha: Math.random() * .38 + .1,
             phase: Math.random() * Math.PI * 2
           })
         );
@@ -1977,7 +1639,8 @@
             (
               .72 +
               Math.sin(
-                time * .0012 + star.phase
+                time * .0012 +
+                star.phase
               ) *
               .28
             );
@@ -1985,7 +1648,7 @@
           context.beginPath();
 
           context.fillStyle =
-            `rgba(211,199,255,${alpha})`;
+            `rgba(207,194,255,${alpha})`;
 
           context.arc(
             star.x,
