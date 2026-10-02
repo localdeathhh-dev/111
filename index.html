@@ -312,158 +312,241 @@
     .vpn-section {
       position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(400px, .9fr);
-      align-items: center;
-      gap: clamp(35px, 6vw, 100px);
-      min-height: 720px;
-      padding: clamp(35px, 6vw, 85px);
+      min-height: 790px;
+      padding: clamp(28px, 4vw, 58px);
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: clamp(25px, 3vw, 44px);
       background:
         radial-gradient(
-          circle at 76% 45%,
-          rgba(147, 117, 244, .2),
-          transparent 35%
+          circle at 50% 47%,
+          rgba(147, 117, 244, .24),
+          transparent 31%
+        ),
+        radial-gradient(
+          circle at 15% 82%,
+          rgba(74, 218, 225, .08),
+          transparent 27%
         ),
         linear-gradient(145deg, #16121f 0%, #0c0a11 70%);
       box-shadow: 0 35px 100px rgba(0, 0, 0, .3);
+      place-items: center;
+    }
+
+    .vpn-section::before,
+    .vpn-section::after {
+      position: absolute;
+      border-radius: 50%;
+      content: "";
+      pointer-events: none;
+      filter: blur(1px);
     }
 
     .vpn-section::before {
-      position: absolute;
-      top: -30%;
-      right: -12%;
-      width: 65%;
+      top: -32%;
+      right: -13%;
+      width: 64%;
       aspect-ratio: 1;
-      border: 1px solid rgba(255, 255, 255, .04);
-      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .045);
       box-shadow:
         0 0 0 55px rgba(255, 255, 255, .015),
         0 0 0 110px rgba(255, 255, 255, .01);
-      content: "";
+      animation: slowPulse 8s ease-in-out infinite;
+    }
+
+    .vpn-section::after {
+      bottom: -33%;
+      left: -15%;
+      width: 54%;
+      aspect-ratio: 1;
+      border: 1px dashed rgba(151, 243, 255, .07);
+      box-shadow: 0 0 90px rgba(151, 243, 255, .03);
+      animation: spin 48s linear infinite reverse;
+    }
+
+    .motion-word {
+      position: absolute;
+      z-index: 0;
+      left: 50%;
+      width: max-content;
+      color: transparent;
+      font-family: var(--display);
+      font-size: clamp(82px, 16vw, 235px);
+      font-weight: 700;
+      letter-spacing: -.08em;
+      line-height: .8;
+      text-transform: uppercase;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, .065);
+      pointer-events: none;
+      user-select: none;
+      transform: translateX(-50%);
+    }
+
+    .motion-word--top {
+      top: 12%;
+      animation: wordDrift 13s ease-in-out infinite alternate;
+    }
+
+    .motion-word--bottom {
+      bottom: 10%;
+      opacity: .6;
+      animation: wordDrift 16s -5s ease-in-out infinite alternate-reverse;
+    }
+
+    .motion-marquee {
+      position: absolute;
+      z-index: 2;
+      right: 0;
+      left: 0;
+      overflow: hidden;
+      border-block: 1px solid rgba(255, 255, 255, .07);
+      background: rgba(255, 255, 255, .018);
+      color: rgba(255, 255, 255, .29);
+      pointer-events: none;
+      transform: rotate(-1deg) scale(1.02);
+    }
+
+    .motion-marquee--top {
+      top: 30px;
+    }
+
+    .motion-marquee--bottom {
+      bottom: 30px;
+      transform: rotate(1deg) scale(1.02);
+    }
+
+    .marquee-track {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      width: max-content;
+      padding: 10px 0;
+      animation: marquee 28s linear infinite;
+    }
+
+    .motion-marquee--bottom .marquee-track {
+      animation-direction: reverse;
+      animation-duration: 34s;
+    }
+
+    .marquee-track span {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .marquee-track i {
+      color: var(--lilac);
+      font-style: normal;
+    }
+
+    .energy-map {
+      position: absolute;
+      z-index: 1;
+      inset: 8% 5%;
+      width: 90%;
+      height: 84%;
+      overflow: visible;
       pointer-events: none;
     }
 
-    .section-copy {
-      position: relative;
-      z-index: 5;
-      max-width: 620px;
+    .energy-map path {
+      fill: none;
+      stroke-linecap: round;
     }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 24px;
-      padding: 8px 12px;
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .04);
-      color: rgba(255, 255, 255, .68);
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      opacity: 0;
-      transform: translateY(16px);
-      animation: rise .8s .1s var(--spring) forwards;
+    .energy-path--soft {
+      stroke: rgba(207, 194, 255, .11);
+      stroke-width: 1;
+      stroke-dasharray: 4 12;
+      animation: dash 20s linear infinite;
     }
 
-    .eyebrow i {
-      width: 6px;
-      height: 6px;
+    .energy-path--glow {
+      stroke: url(#energyGradient);
+      stroke-width: 2;
+      stroke-dasharray: 2 90;
+      filter: drop-shadow(0 0 7px rgba(166, 140, 255, .85));
+      animation: dash 8s linear infinite reverse;
+    }
+
+    .floating-rune {
+      position: absolute;
+      z-index: 6;
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, .035);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, .18);
+      color: var(--lilac);
+      font-size: 16px;
+      pointer-events: none;
+      backdrop-filter: blur(12px);
+      animation: runeFloat 6s ease-in-out infinite;
+    }
+
+    .rune--one {
+      top: 23%;
+      left: 10%;
+    }
+
+    .rune--two {
+      top: 43%;
+      right: 9%;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      background: var(--lime);
-      box-shadow: 0 0 13px var(--lime);
+      color: var(--pink);
+      animation-delay: -2s;
     }
 
-    h1 {
-      margin: 0;
-      font-family: var(--display);
-      font-size: clamp(48px, 6vw, 88px);
-      font-weight: 600;
-      letter-spacing: -.075em;
-      line-height: .98;
-    }
-
-    .title-line {
-      display: block;
-      overflow: hidden;
-      padding: 0 .06em .08em 0;
-    }
-
-    .title-line span {
-      display: block;
-      opacity: 0;
-      transform: translateY(110%) rotate(2deg);
-      animation: titleIn 1.1s .18s var(--spring) forwards;
-    }
-
-    .title-line:nth-child(2) span {
-      background: linear-gradient(
-        100deg,
-        var(--lilac),
-        var(--pink),
-        var(--cyan)
-      );
-      background-size: 180% auto;
-      color: transparent;
-      -webkit-background-clip: text;
-      background-clip: text;
-      animation:
-        titleIn 1.1s .29s var(--spring) forwards,
-        gradient 7s linear infinite;
-    }
-
-    .lead {
-      max-width: 530px;
-      margin: 25px 0 0;
-      color: rgba(255, 255, 255, .5);
-      font-size: clamp(14px, 1.3vw, 18px);
-      line-height: 1.75;
-      opacity: 0;
-      transform: translateY(18px);
-      animation: rise .85s .48s var(--spring) forwards;
-    }
-
-    .feature-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 30px;
-      opacity: 0;
-      transform: translateY(18px);
-      animation: rise .85s .6s var(--spring) forwards;
-    }
-
-    .feature-row span {
-      padding: 8px 11px;
-      border: 1px solid rgba(255, 255, 255, .1);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .04);
-      color: rgba(255, 255, 255, .55);
-      font-size: 9px;
-      font-weight: 700;
+    .rune--three {
+      bottom: 19%;
+      left: 16%;
+      width: 34px;
+      height: 34px;
+      color: var(--cyan);
+      animation-delay: -4s;
     }
 
     .app-stage {
       position: relative;
       z-index: 4;
       display: grid;
-      min-height: 590px;
+      width: 100%;
+      min-height: 690px;
       place-items: center;
       perspective: 1200px;
     }
 
+    .app-float {
+      position: relative;
+      z-index: 4;
+      animation: appLevitate 6s ease-in-out infinite;
+    }
+
     .orbit {
       position: absolute;
-      width: min(42vw, 570px);
-      min-width: 430px;
+      width: min(46vw, 620px);
+      min-width: 470px;
       aspect-ratio: 1;
       border: 1px dashed rgba(207, 194, 255, .14);
       border-radius: 50%;
       animation: spin 36s linear infinite;
+    }
+
+    .orbit--secondary {
+      width: min(58vw, 760px);
+      min-width: 590px;
+      border-style: solid;
+      border-color: rgba(151, 243, 255, .055);
+      animation-duration: 52s;
+      animation-direction: reverse;
     }
 
     .orbit::before,
@@ -814,13 +897,13 @@
     }
 
     .floating-chip--top {
-      top: 12%;
-      right: -3%;
+      top: 14%;
+      right: 12%;
     }
 
     .floating-chip--bottom {
-      bottom: 11%;
-      left: -5%;
+      bottom: 14%;
+      left: 11%;
       animation-delay: -2.2s;
     }
 
@@ -869,29 +952,68 @@
       color: var(--lilac);
     }
 
-    @keyframes titleIn {
-      to {
-        opacity: 1;
-        transform: translateY(0) rotate(0);
-      }
-    }
-
-    @keyframes rise {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes gradient {
-      to {
-        background-position: 180% center;
-      }
-    }
-
     @keyframes ambient {
       to {
         transform: translate(8vw, 9vh) scale(1.15);
+      }
+    }
+
+    @keyframes slowPulse {
+      0%,
+      100% {
+        opacity: .45;
+        transform: scale(.96);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes wordDrift {
+      0% {
+        translate: -5% 0;
+      }
+
+      100% {
+        translate: 5% 0;
+      }
+    }
+
+    @keyframes marquee {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -360;
+      }
+    }
+
+    @keyframes runeFloat {
+      0%,
+      100% {
+        opacity: .5;
+        transform: translateY(0) rotate(-4deg);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translateY(-18px) rotate(8deg) scale(1.08);
+      }
+    }
+
+    @keyframes appLevitate {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-12px);
       }
     }
 
@@ -977,27 +1099,21 @@
 
     @media (max-width: 950px) {
       .vpn-section {
-        grid-template-columns: 1fr;
-        gap: 25px;
-        padding-block: 70px 40px;
-      }
-
-      .section-copy {
-        max-width: 760px;
-        text-align: center;
-        justify-self: center;
-      }
-
-      .lead {
-        margin-inline: auto;
-      }
-
-      .feature-row {
-        justify-content: center;
+        min-height: 760px;
+        padding: 35px 20px;
       }
 
       .app-stage {
         width: 100%;
+        min-height: 680px;
+      }
+
+      .floating-chip--top {
+        right: 7%;
+      }
+
+      .floating-chip--bottom {
+        left: 6%;
       }
     }
 
@@ -1032,22 +1148,25 @@
       }
 
       .vpn-section {
-        min-height: 850px;
-        padding: 58px 17px 35px;
+        min-height: 730px;
+        padding: 32px 17px;
         border-radius: 27px;
       }
 
-      h1 {
-        font-size: clamp(45px, 12vw, 70px);
+      .motion-marquee--top {
+        top: 20px;
       }
 
-      .lead {
-        max-width: 520px;
-        font-size: 14px;
+      .motion-marquee--bottom {
+        bottom: 20px;
+      }
+
+      .motion-word {
+        font-size: clamp(74px, 22vw, 150px);
       }
 
       .app-stage {
-        min-height: 585px;
+        min-height: 650px;
       }
 
       .app-card {
@@ -1104,25 +1223,36 @@
       }
 
       .vpn-section {
-        min-height: 810px;
-        padding-top: 48px;
+        min-height: 690px;
+        padding: 25px 10px;
       }
 
-      h1 {
-        font-size: clamp(40px, 11.8vw, 57px);
+      .motion-word {
+        font-size: 25vw;
       }
 
-      .eyebrow {
-        margin-bottom: 18px;
-        font-size: 7px;
+      .motion-word--top {
+        top: 17%;
       }
 
-      .feature-row span {
-        font-size: 8px;
+      .motion-word--bottom {
+        bottom: 16%;
       }
 
       .app-stage {
-        min-height: 540px;
+        min-height: 610px;
+      }
+
+      .floating-rune {
+        scale: .78;
+      }
+
+      .rune--one {
+        left: 1%;
+      }
+
+      .rune--two {
+        right: 1%;
       }
 
       .app-card {
@@ -1214,40 +1344,164 @@
       </p>
     </aside>
 
-    <section class="vpn-section" aria-labelledby="main-title">
-      <div class="section-copy">
-        <div class="eyebrow">
-          <i aria-hidden="true"></i>
-          Бесплатный доступ
-        </div>
+    <section
+      class="vpn-section"
+      aria-label="Приложение Сказочного VPN"
+    >
+      <div
+        class="motion-word motion-word--top"
+        aria-hidden="true"
+      >
+        свобода
+      </div>
 
-        <h1 id="main-title">
-          <span class="title-line">
-            <span>Ваш сказочный</span>
-          </span>
+      <div
+        class="motion-word motion-word--bottom"
+        aria-hidden="true"
+      >
+        интернет
+      </div>
 
-          <span class="title-line">
-            <span>VPN-портал.</span>
-          </span>
-        </h1>
-
-        <p class="lead">
-          Нажмите кнопку питания в приложении — подписка откроется
-          в INCY и будет готова к подключению.
-        </p>
-
-        <div class="feature-row">
-          <span>0 ₽</span>
+      <div
+        class="motion-marquee motion-marquee--top"
+        aria-hidden="true"
+      >
+        <div class="marquee-track">
+          <span>Сказочный VPN</span>
+          <i>✦</i>
+          <span>Бесплатный доступ</span>
+          <i>✦</i>
           <span>Одно касание</span>
-          <span>INCY</span>
+          <i>✦</i>
+          <span>Открытый интернет</span>
+          <i>✦</i>
+
+          <span>Сказочный VPN</span>
+          <i>✦</i>
+          <span>Бесплатный доступ</span>
+          <i>✦</i>
+          <span>Одно касание</span>
+          <i>✦</i>
+          <span>Открытый интернет</span>
+          <i>✦</i>
         </div>
       </div>
 
+      <div
+        class="motion-marquee motion-marquee--bottom"
+        aria-hidden="true"
+      >
+        <div class="marquee-track">
+          <span>Добавить в INCY</span>
+          <i>✦</i>
+          <span>Умный маршрут</span>
+          <i>✦</i>
+          <span>Без сложных настроек</span>
+          <i>✦</i>
+          <span>0 ₽</span>
+          <i>✦</i>
+
+          <span>Добавить в INCY</span>
+          <i>✦</i>
+          <span>Умный маршрут</span>
+          <i>✦</i>
+          <span>Без сложных настроек</span>
+          <i>✦</i>
+          <span>0 ₽</span>
+          <i>✦</i>
+        </div>
+      </div>
+
+      <svg
+        class="energy-map"
+        viewBox="0 0 1000 650"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient
+            id="energyGradient"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="1"
+          >
+            <stop
+              offset="0"
+              stop-color="#97f3ff"
+            ></stop>
+
+            <stop
+              offset=".5"
+              stop-color="#cfc2ff"
+            ></stop>
+
+            <stop
+              offset="1"
+              stop-color="#ff9ce8"
+            ></stop>
+          </linearGradient>
+        </defs>
+
+        <path
+          class="energy-path--soft"
+          d="M-50 480C160 120 335 590 515 315S790 40 1060 250"
+        ></path>
+
+        <path
+          class="energy-path--soft"
+          d="M-40 180C180 430 320 40 540 270S810 610 1060 360"
+        ></path>
+
+        <path
+          class="energy-path--glow"
+          d="M-50 480C160 120 335 590 515 315S790 40 1060 250"
+        ></path>
+
+        <path
+          class="energy-path--glow"
+          d="M-40 180C180 430 320 40 540 270S810 610 1060 360"
+        ></path>
+      </svg>
+
+      <span
+        class="floating-rune rune--one"
+        data-parallax="18"
+        aria-hidden="true"
+      >
+        ✦
+      </span>
+
+      <span
+        class="floating-rune rune--two"
+        data-parallax="-22"
+        aria-hidden="true"
+      >
+        ✧
+      </span>
+
+      <span
+        class="floating-rune rune--three"
+        data-parallax="13"
+        aria-hidden="true"
+      >
+        •
+      </span>
+
       <div class="app-stage">
-        <div class="orbit" aria-hidden="true"></div>
+        <div
+          class="orbit orbit--primary"
+          aria-hidden="true"
+        ></div>
+
+        <div
+          class="orbit orbit--secondary"
+          aria-hidden="true"
+        ></div>
 
         <div
           class="floating-chip floating-chip--top"
+          data-parallax="16"
           aria-hidden="true"
         >
           <span class="chip-symbol">✦</span>
@@ -1260,6 +1514,7 @@
 
         <div
           class="floating-chip floating-chip--bottom"
+          data-parallax="-14"
           aria-hidden="true"
         >
           <span class="chip-symbol">in</span>
@@ -1270,94 +1525,122 @@
           </span>
         </div>
 
-        <article class="app-card" data-app-card>
-          <div class="card-glow" aria-hidden="true"></div>
+        <div class="app-float">
+          <article class="app-card" data-app-card>
+            <div class="card-glow" aria-hidden="true"></div>
 
-          <div class="app-bar">
-            <div class="app-brand">
-              <span class="app-logo" aria-hidden="true">✦</span>
-              <span>Сказочный VPN</span>
+            <div class="app-bar">
+              <div class="app-brand">
+                <span class="app-logo" aria-hidden="true">✦</span>
+                <span>Сказочный VPN</span>
+              </div>
+
+              <span class="app-menu" aria-hidden="true">
+                •••
+              </span>
             </div>
 
-            <span class="app-menu" aria-hidden="true">•••</span>
-          </div>
-
-          <div class="portal-wrap">
-            <div
-              class="ripple ripple--one"
-              aria-hidden="true"
-            ></div>
-
-            <div
-              class="ripple ripple--two"
-              aria-hidden="true"
-            ></div>
-
-            <button
-              class="power-button"
-              type="button"
-              data-add-subscription
-              aria-label="Добавить подписку Сказочного VPN в INCY"
-            >
-              <span
-                class="power-noise"
+            <div class="portal-wrap">
+              <div
+                class="ripple ripple--one"
                 aria-hidden="true"
-              ></span>
+              ></div>
 
-              <span class="power-core">
-                <svg
-                  viewBox="0 0 32 32"
-                  fill="none"
+              <div
+                class="ripple ripple--two"
+                aria-hidden="true"
+              ></div>
+
+              <button
+                class="power-button"
+                type="button"
+                data-add-subscription
+                aria-label="Добавить подписку Сказочного VPN в INCY"
+              >
+                <span
+                  class="power-noise"
                   aria-hidden="true"
-                >
-                  <path
-                    d="M16 4v12"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                  ></path>
+                ></span>
 
-                  <path
-                    d="M9.25 8.7A10.5 10.5 0 1 0 22.8 8.6"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                  ></path>
-                </svg>
+                <span class="power-core">
+                  <svg
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M16 4v12"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                    ></path>
+
+                    <path
+                      d="M9.25 8.7A10.5 10.5 0 1 0 22.8 8.6"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                    ></path>
+                  </svg>
+                </span>
+              </button>
+            </div>
+
+            <div class="connection-copy">
+              <span
+                class="connection-status"
+                data-status
+              >
+                Готов к приключениям
               </span>
-            </button>
-          </div>
 
-          <div class="connection-copy">
-            <span class="connection-status" data-status>
-              Готов к приключениям
-            </span>
+              <span
+                class="connection-subtitle"
+                data-subtitle
+              >
+                Нажмите, чтобы добавить подписку
+              </span>
+            </div>
 
-            <span class="connection-subtitle" data-subtitle>
-              Нажмите, чтобы добавить подписку
-            </span>
-          </div>
+            <div class="route-card">
+              <span
+                class="route-icon"
+                aria-hidden="true"
+              >
+                ☁
+              </span>
 
-          <div class="route-card">
-            <span class="route-icon" aria-hidden="true">☁</span>
+              <span class="route-copy">
+                <small>Умный маршрут</small>
+                Ближайший портал
+              </span>
 
-            <span class="route-copy">
-              <small>Умный маршрут</small>
-              Ближайший портал
-            </span>
+              <span class="route-state">
+                <i aria-hidden="true"></i>
 
-            <span class="route-state">
-              <i aria-hidden="true"></i>
-              <span data-route-state>готов</span>
-            </span>
-          </div>
-        </article>
+                <span data-route-state>
+                  готов
+                </span>
+              </span>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
   </main>
 
-  <div class="toast" role="status" aria-live="polite">
-    <span class="toast-star" aria-hidden="true">✦</span>
+  <div
+    class="toast"
+    role="status"
+    aria-live="polite"
+  >
+    <span
+      class="toast-star"
+      aria-hidden="true"
+    >
+      ✦
+    </span>
+
     <span data-toast-copy></span>
   </div>
 
@@ -1367,19 +1650,44 @@
       const query = new URLSearchParams(window.location.search);
 
       const buttons = [
-        ...document.querySelectorAll("[data-add-subscription]")
+        ...document.querySelectorAll(
+          "[data-add-subscription]"
+        )
       ];
 
       const headerLabel = document.querySelector(
         "[data-header-label]"
       );
 
-      const appCard = document.querySelector("[data-app-card]");
-      const status = document.querySelector("[data-status]");
-      const subtitle = document.querySelector("[data-subtitle]");
-      const routeState = document.querySelector("[data-route-state]");
+      const appCard = document.querySelector(
+        "[data-app-card]"
+      );
+
+      const status = document.querySelector(
+        "[data-status]"
+      );
+
+      const subtitle = document.querySelector(
+        "[data-subtitle]"
+      );
+
+      const routeState = document.querySelector(
+        "[data-route-state]"
+      );
+
       const toast = document.querySelector(".toast");
-      const toastCopy = document.querySelector("[data-toast-copy]");
+
+      const toastCopy = document.querySelector(
+        "[data-toast-copy]"
+      );
+
+      const motionSection = document.querySelector(
+        ".vpn-section"
+      );
+
+      const parallaxItems = [
+        ...document.querySelectorAll("[data-parallax]")
+      ];
 
       const allowedProtocols = [
         "http:",
@@ -1452,7 +1760,10 @@
         const value = requestSubscriptionUrl();
 
         if (!value) {
-          showToast("Для добавления нужна ссылка подписки.");
+          showToast(
+            "Для добавления нужна ссылка подписки."
+          );
+
           return;
         }
 
@@ -1478,19 +1789,25 @@
 
         setTimeout(() => {
           appCard.classList.add("is-connected");
+
           status.textContent = "Подписка готова";
-          subtitle.textContent = "Подтвердите добавление в INCY";
+
+          subtitle.textContent =
+            "Подтвердите добавление в INCY";
+
           routeState.textContent = "готово";
         }, 520);
 
-        window.location.href = `incy://import/${subscriptionUrl}`;
+        window.location.href =
+          `incy://import/${subscriptionUrl}`;
 
         setTimeout(() => {
           busy = false;
 
           setButtonsDisabled(false);
 
-          headerLabel.textContent = "Добавить подписку";
+          headerLabel.textContent =
+            "Добавить подписку";
 
           showToast(
             "Если INCY не открылся, установите приложение и нажмите кнопку снова."
@@ -1499,7 +1816,10 @@
       }
 
       buttons.forEach((button) => {
-        button.addEventListener("click", addSubscription);
+        button.addEventListener(
+          "click",
+          addSubscription
+        );
       });
 
       if (
@@ -1507,26 +1827,79 @@
           "(hover: hover) and (prefers-reduced-motion: no-preference)"
         ).matches
       ) {
-        appCard.addEventListener("pointermove", (event) => {
-          const rect = appCard.getBoundingClientRect();
-          const x =
-            (event.clientX - rect.left) / rect.width - .5;
-          const y =
-            (event.clientY - rect.top) / rect.height - .5;
+        appCard.addEventListener(
+          "pointermove",
+          (event) => {
+            const rect =
+              appCard.getBoundingClientRect();
 
-          appCard.style.transform =
-            `rotateY(${x * 10}deg) ` +
-            `rotateX(${-y * 9}deg) ` +
-            `translateZ(5px)`;
-        });
+            const x =
+              (event.clientX - rect.left) /
+              rect.width -
+              .5;
 
-        appCard.addEventListener("pointerleave", () => {
-          appCard.style.transform =
-            "rotateY(-4deg) rotateX(2deg)";
-        });
+            const y =
+              (event.clientY - rect.top) /
+              rect.height -
+              .5;
+
+            appCard.style.transform =
+              `rotateY(${x * 10}deg) ` +
+              `rotateX(${-y * 9}deg) ` +
+              `translateZ(5px)`;
+          }
+        );
+
+        appCard.addEventListener(
+          "pointerleave",
+          () => {
+            appCard.style.transform =
+              "rotateY(-4deg) rotateX(2deg)";
+          }
+        );
+
+        motionSection.addEventListener(
+          "pointermove",
+          (event) => {
+            const rect =
+              motionSection.getBoundingClientRect();
+
+            const x =
+              (event.clientX - rect.left) /
+              rect.width -
+              .5;
+
+            const y =
+              (event.clientY - rect.top) /
+              rect.height -
+              .5;
+
+            parallaxItems.forEach((item) => {
+              const strength = Number(
+                item.dataset.parallax || 10
+              );
+
+              item.style.translate =
+                `${x * strength}px ` +
+                `${y * strength}px`;
+            });
+          }
+        );
+
+        motionSection.addEventListener(
+          "pointerleave",
+          () => {
+            parallaxItems.forEach((item) => {
+              item.style.translate = "";
+            });
+          }
+        );
       }
 
-      const canvas = document.querySelector("#stardust");
+      const canvas = document.querySelector(
+        "#stardust"
+      );
+
       const context = canvas.getContext("2d");
 
       const reduceMotion = matchMedia(
@@ -1539,7 +1912,11 @@
       let dpr = 1;
 
       function resizeCanvas() {
-        dpr = Math.min(devicePixelRatio || 1, 2);
+        dpr = Math.min(
+          devicePixelRatio || 1,
+          2
+        );
+
         width = innerWidth;
         height = innerHeight;
 
@@ -1548,11 +1925,21 @@
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
 
-        context.setTransform(dpr, 0, 0, dpr, 0, 0);
+        context.setTransform(
+          dpr,
+          0,
+          0,
+          dpr,
+          0,
+          0
+        );
 
         const amount = Math.min(
           70,
-          Math.max(28, Math.floor(width / 20))
+          Math.max(
+            28,
+            Math.floor(width / 20)
+          )
         );
 
         stars = Array.from(
@@ -1571,7 +1958,12 @@
       }
 
       function paint(time = 0) {
-        context.clearRect(0, 0, width, height);
+        context.clearRect(
+          0,
+          0,
+          width,
+          height
+        );
 
         stars.forEach((star) => {
           star.y -= star.speed;
@@ -1584,7 +1976,10 @@
             star.alpha *
             (
               .72 +
-              Math.sin(time * .0012 + star.phase) * .28
+              Math.sin(
+                time * .0012 + star.phase
+              ) *
+              .28
             );
 
           context.beginPath();
