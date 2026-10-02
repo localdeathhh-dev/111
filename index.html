@@ -1,178 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b0912">
-  <meta name="description" content="Сказочный VPN — свободный интернет в одно касание.">
-  <meta property="og:title" content="Сказочный VPN">
-  <meta property="og:description" content="Интернет задумывался свободным.">
-  <title>Сказочный VPN</title>
-
-  <!-- Вставьте постоянную ссылку подписки между кавычками. -->
-  <script>
-    window.SKAZOCHNY_VPN_CONFIG = {
-      subscriptionUrl: ""
-    };
-  </script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#080b10" />
+  <meta name="description" content="сказочный.vpn — бесплатное подключение к открытому интернету." />
+  <title>сказочный.vpn — бесплатно</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap');
-
     :root {
-      --ink: #0b0912;
-      --paper: #f7f4ee;
-      --paper-soft: #eee9f5;
-      --violet: #8f70ee;
-      --violet-deep: #6547cb;
-      --lilac: #cfc2ff;
-      --pink: #ff9ce8;
-      --cyan: #8ceaf4;
-      --lime: #ddff6b;
-      --display: "Unbounded", "Arial Black", sans-serif;
-      --body: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --spring: cubic-bezier(.16, 1, .3, 1);
-
-      /*
-       * Telegram Mini App передаёт безопасные отступы
-       * через --tg-safe-area-inset-top и
-       * --tg-content-safe-area-inset-top.
-       */
-      --tg-top: calc(
-        max(18px, env(safe-area-inset-top, 0px)) +
-        var(--tg-safe-area-inset-top, 0px) +
-        var(--tg-content-safe-area-inset-top, 0px)
-      );
+      color-scheme: dark;
+      --bg: #080b10;
+      --panel: rgba(18, 24, 34, .72);
+      --line: rgba(255, 255, 255, .10);
+      --text: #f4f7fb;
+      --muted: #919aaa;
+      --accent: #9afcbd;
+      --accent-deep: #38c879;
+      --danger: #ff9a9a;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html {
-      width: 100%;
-      min-width: 320px;
-      min-height: 100%;
-      overflow-x: hidden;
-      background: var(--ink);
-    }
+    html, body { min-height: 100%; }
 
     body {
-      width: 100%;
-      min-width: 320px;
-      min-height: 100%;
       margin: 0;
       overflow-x: hidden;
-      background:
-        radial-gradient(
-          circle at 78% 8%,
-          rgba(143, 112, 238, .18),
-          transparent 30%
-        ),
-        var(--ink);
-      color: var(--ink);
-      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
       -webkit-font-smoothing: antialiased;
     }
 
-    button {
-      color: inherit;
-      font: inherit;
-      -webkit-tap-highlight-color: transparent;
-    }
+    button, input { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
 
-    ::selection {
-      color: var(--paper);
-      background: var(--violet-deep);
-    }
-
-    .noise {
+    .aurora {
       position: fixed;
-      z-index: 30;
+      z-index: -2;
       inset: 0;
-      opacity: .032;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 116%, rgba(43, 197, 120, .15), transparent 45%),
+        linear-gradient(180deg, #0a0e15 0%, #080b10 62%);
+    }
+
+    .aurora::before, .aurora::after {
+      position: absolute;
+      width: 52vmax;
+      height: 52vmax;
+      border-radius: 50%;
+      content: "";
+      filter: blur(42px);
+      opacity: .15;
       pointer-events: none;
     }
 
-    #stardust {
-      position: fixed;
-      z-index: -1;
-      inset: 0;
-      display: block;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
+    .aurora::before {
+      top: -34vmax;
+      left: -18vmax;
+      background: #6d73ff;
+      animation: drift 16s ease-in-out infinite alternate;
+    }
+
+    .aurora::after {
+      right: -20vmax;
+      bottom: -36vmax;
+      background: #3df29a;
+      animation: drift 19s -5s ease-in-out infinite alternate-reverse;
     }
 
     .page {
-      width: min(1320px, 100%);
-      min-height: 100vh;
+      display: flex;
+      width: min(100%, 1120px);
       min-height: 100svh;
       margin: 0 auto;
-      padding:
-        var(--tg-top)
-        clamp(8px, 1.4vw, 20px)
-        max(10px, env(safe-area-inset-bottom, 0px));
-      overflow: clip;
+      padding: 28px 32px 24px;
+      flex-direction: column;
     }
 
-    .freedom-card {
-      position: relative;
-      isolation: isolate;
-      width: 100%;
-      min-height: calc(100vh - var(--tg-top) - 12px);
-      min-height: calc(100svh - var(--tg-top) - 12px);
-      padding: clamp(22px, 4vw, 58px);
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, .26);
-      border-radius: clamp(27px, 3.5vw, 52px);
-      background:
-        radial-gradient(
-          circle at 82% 12%,
-          rgba(255, 255, 255, .8),
-          transparent 23%
-        ),
-        var(--paper);
-      box-shadow: 0 36px 110px rgba(0, 0, 0, .42);
-    }
-
-    .freedom-card::before {
-      position: absolute;
-      z-index: -2;
-      top: -210px;
-      right: -40px;
-      width: 540px;
-      height: 540px;
-      border-radius: 44% 56% 48% 52% / 52% 42% 58% 48%;
-      background: radial-gradient(
-        circle at 35% 30%,
-        #ded5ff,
-        #ad95f4 53%,
-        #8ceaf4 100%
-      );
-      content: "";
-      opacity: .9;
-      animation: morph 13s ease-in-out infinite;
-    }
-
-    .freedom-card::after {
-      position: absolute;
-      z-index: -2;
-      bottom: -260px;
-      left: -190px;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: rgba(221, 255, 107, .5);
-      content: "";
-      filter: blur(85px);
-      animation: glowFloat 12s ease-in-out infinite alternate;
-    }
-
-    .meta-row {
-      position: relative;
-      z-index: 5;
+    header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -183,1508 +91,405 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      font-size: 13px;
-      font-weight: 800;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 740;
       letter-spacing: -.04em;
+      text-decoration: none;
     }
 
     .brand-mark {
       display: grid;
-      width: 34px;
-      height: 34px;
+      width: 26px;
+      height: 26px;
       place-items: center;
-      border: 1px solid rgba(11, 9, 18, .11);
-      border-radius: 11px;
-      background: rgba(255, 255, 255, .28);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5);
-      color: var(--violet-deep);
-      backdrop-filter: blur(12px);
-      animation: markFloat 5s ease-in-out infinite;
+      border: 1px solid rgba(154, 252, 189, .48);
+      border-radius: 8px;
+      background: rgba(154, 252, 189, .08);
+      color: var(--accent);
     }
 
-    .brand-dot {
-      color: var(--violet-deep);
-    }
+    .brand-dot { color: var(--accent); }
 
-    .free-pill {
+    .free {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 9px 12px;
-      border: 1px solid rgba(11, 9, 18, .11);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .22);
-      color: rgba(11, 9, 18, .62);
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      backdrop-filter: blur(10px);
+      gap: 7px;
+      color: var(--muted);
+      font-size: 12px;
     }
 
-    .free-pill i {
-      position: relative;
+    .free::before {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #75b84d;
-      box-shadow: 0 0 12px rgba(117, 184, 77, .7);
-    }
-
-    .free-pill i::after {
-      position: absolute;
-      inset: -5px;
-      border: 1px solid #75b84d;
-      border-radius: 50%;
-      content: "";
-      animation: ping 2s ease-out infinite;
-    }
-
-    .hero-copy {
-      position: relative;
-      z-index: 5;
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(230px, .7fr);
-      align-items: end;
-      gap: clamp(30px, 6vw, 90px);
-      margin-top: clamp(70px, 9vh, 120px);
-    }
-
-    .hero-title {
-      margin: 0;
-      font-family: var(--display);
-      font-size: clamp(48px, 7vw, 108px);
-      font-weight: 600;
-      letter-spacing: -.075em;
-      line-height: .98;
-    }
-
-    .title-line {
-      display: block;
-      overflow: hidden;
-      padding: 0 .08em .08em 0;
-    }
-
-    .title-line span {
-      display: block;
-      opacity: 0;
-      transform: translateY(110%) rotate(2deg);
-      animation: titleIn 1.15s .1s var(--spring) forwards;
-    }
-
-    .title-line:nth-child(2) span {
-      color: var(--violet-deep);
-      animation-delay: .22s;
-    }
-
-    .hero-side {
-      padding-bottom: 10px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: rise .9s .38s var(--spring) forwards;
-    }
-
-    .hero-side p {
-      margin: 0;
-      color: rgba(11, 9, 18, .56);
-      font-size: clamp(13px, 1.25vw, 16px);
-      line-height: 1.75;
-    }
-
-    .signature {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-top: 20px;
-      color: rgba(11, 9, 18, .42);
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-
-    .signature::before {
-      width: 32px;
-      height: 1px;
-      background: rgba(11, 9, 18, .25);
+      background: var(--accent);
+      box-shadow: 0 0 13px rgba(154, 252, 189, .8);
       content: "";
     }
 
-    .portal-zone {
-      position: relative;
-      z-index: 4;
+    main {
       display: grid;
-      min-height: 600px;
-      margin-top: clamp(55px, 8vh, 95px);
-      overflow: hidden;
-      border: 1px solid rgba(11, 9, 18, .09);
-      border-radius: clamp(25px, 3vw, 42px);
-      background:
-        radial-gradient(
-          circle at 50% 50%,
-          rgba(174, 150, 246, .28),
-          transparent 29%
-        ),
-        linear-gradient(145deg, #eee8f6 0%, #e5ddf2 100%);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65);
+      width: min(100%, 600px);
+      margin: auto;
+      padding: 44px 0;
       place-items: center;
-    }
-
-    .portal-zone::before,
-    .portal-zone::after {
-      position: absolute;
-      border-radius: 50%;
-      content: "";
-      pointer-events: none;
-    }
-
-    .portal-zone::before {
-      top: -38%;
-      right: -12%;
-      width: 62%;
-      aspect-ratio: 1;
-      border: 1px dashed rgba(11, 9, 18, .09);
-      box-shadow:
-        0 0 0 55px rgba(11, 9, 18, .018),
-        0 0 0 110px rgba(11, 9, 18, .012);
-      animation: spin 48s linear infinite;
-    }
-
-    .portal-zone::after {
-      bottom: -45%;
-      left: -18%;
-      width: 62%;
-      aspect-ratio: 1;
-      border: 1px solid rgba(101, 71, 203, .08);
-      box-shadow: 0 0 100px rgba(101, 71, 203, .08);
-      animation: breathe 8s ease-in-out infinite;
-    }
-
-    .kinetic-word {
-      position: absolute;
-      z-index: 0;
-      left: 50%;
-      width: max-content;
-      color: transparent;
-      font-family: var(--display);
-      font-size: clamp(82px, 16vw, 235px);
-      font-weight: 700;
-      letter-spacing: -.08em;
-      line-height: .8;
-      text-transform: uppercase;
-      -webkit-text-stroke: 1px rgba(11, 9, 18, .075);
-      pointer-events: none;
-      user-select: none;
-      transform: translateX(-50%);
-    }
-
-    .kinetic-word--one {
-      top: 10%;
-      animation: wordDrift 14s ease-in-out infinite alternate;
-    }
-
-    .kinetic-word--two {
-      bottom: 10%;
-      animation: wordDrift 17s -6s ease-in-out infinite alternate-reverse;
-    }
-
-    .energy-map {
-      position: absolute;
-      z-index: 1;
-      inset: 5%;
-      width: 90%;
-      height: 90%;
-      pointer-events: none;
-    }
-
-    .energy-map path {
-      fill: none;
-      stroke-linecap: round;
-    }
-
-    .path-soft {
-      stroke: rgba(101, 71, 203, .13);
-      stroke-width: 1;
-      stroke-dasharray: 4 13;
-      animation: dash 22s linear infinite;
-    }
-
-    .path-glow {
-      stroke: url(#portalGradient);
-      stroke-width: 2;
-      stroke-dasharray: 2 100;
-      filter: drop-shadow(0 0 7px rgba(101, 71, 203, .45));
-      animation: dash 8s linear infinite reverse;
-    }
-
-    .orbit,
-    .orbit::before,
-    .orbit::after {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .orbit {
-      z-index: 2;
-      width: min(48vw, 600px);
-      min-width: 450px;
-      aspect-ratio: 1;
-      border: 1px dashed rgba(101, 71, 203, .18);
-      animation: spin 36s linear infinite;
-    }
-
-    .orbit--outer {
-      width: min(61vw, 760px);
-      min-width: 580px;
-      border-style: solid;
-      border-color: rgba(11, 9, 18, .065);
-      animation-duration: 55s;
-      animation-direction: reverse;
-    }
-
-    .orbit::before,
-    .orbit::after {
-      content: "";
-    }
-
-    .orbit::before {
-      top: 12%;
-      right: 10%;
-      width: 9px;
-      height: 9px;
-      background: var(--violet-deep);
-      box-shadow: 0 0 18px rgba(101, 71, 203, .65);
-    }
-
-    .orbit::after {
-      bottom: 4%;
-      left: 27%;
-      width: 7px;
-      height: 7px;
-      background: #64b7be;
-      box-shadow: 0 0 17px rgba(100, 183, 190, .65);
-    }
-
-    .control-wrap {
-      position: relative;
-      z-index: 8;
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      animation: levitate 6s ease-in-out infinite;
-    }
-
-    .power-shell {
-      position: relative;
-      display: grid;
-      width: clamp(230px, 24vw, 310px);
-      aspect-ratio: 1;
-      place-items: center;
-    }
-
-    .ripple {
-      position: absolute;
-      width: 78%;
-      aspect-ratio: 1;
-      border: 1px solid rgba(101, 71, 203, .22);
-      border-radius: 50%;
-      animation: ripple 3s ease-out infinite;
-    }
-
-    .ripple--two {
-      animation-delay: 1.5s;
-    }
-
-    .power-button {
-      position: relative;
-      z-index: 4;
-      display: grid;
-      width: 64%;
-      aspect-ratio: 1;
-      place-items: center;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, .22);
-      border-radius: 50%;
-      background: radial-gradient(
-        circle at 35% 27%,
-        #393040,
-        #17131d 58%,
-        #09080c 100%
-      );
-      box-shadow:
-        0 0 0 14px rgba(101, 71, 203, .07),
-        0 25px 70px rgba(58, 39, 115, .28),
-        inset 12px 10px 34px rgba(255, 255, 255, .09),
-        inset -17px -20px 35px rgba(0, 0, 0, .5);
-      color: var(--paper);
-      cursor: pointer;
-      transition:
-        filter .4s ease,
-        background .6s ease,
-        box-shadow .6s ease,
-        scale .35s var(--spring);
-    }
-
-    .power-button:hover {
-      filter: brightness(1.12);
-      scale: 1.035;
-    }
-
-    .power-button:active {
-      scale: .965;
-    }
-
-    .power-button:focus-visible {
-      outline: 4px solid var(--lime);
-      outline-offset: 7px;
-    }
-
-    .power-shimmer {
-      position: absolute;
-      inset: -40%;
-      opacity: .35;
-      background: conic-gradient(
-        from 30deg,
-        transparent,
-        rgba(207, 194, 255, .45),
-        transparent 30%,
-        rgba(140, 234, 244, .35),
-        transparent 58%,
-        rgba(255, 156, 232, .32),
-        transparent
-      );
-      animation: spin 8s linear infinite;
-    }
-
-    .power-core {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      width: 44%;
-      aspect-ratio: 1;
-      place-items: center;
-      border: 1px solid rgba(255, 255, 255, .16);
-      border-radius: 50%;
-      background: rgba(255, 255, 255, .04);
-      backdrop-filter: blur(10px);
-    }
-
-    .power-core svg {
-      width: 38%;
-      height: 38%;
-    }
-
-    .control-wrap.is-connected .power-button {
-      background: radial-gradient(
-        circle at 35% 27%,
-        #eaffb1,
-        #76c99f 52%,
-        #265d54 100%
-      );
-      box-shadow:
-        0 0 0 14px rgba(117, 184, 77, .08),
-        0 25px 75px rgba(70, 154, 117, .35),
-        inset 12px 10px 34px rgba(255, 255, 255, .22),
-        inset -17px -20px 35px rgba(21, 83, 68, .4);
-    }
-
-    .control-wrap.is-connected .ripple {
-      border-color: rgba(117, 184, 77, .35);
-    }
-
-    .control-status {
-      display: flex;
-      align-items: center;
-      margin-top: 2px;
       text-align: center;
-      flex-direction: column;
     }
 
-    .status-title {
-      font-family: var(--display);
-      font-size: clamp(15px, 1.6vw, 20px);
-      font-weight: 600;
-      letter-spacing: -.04em;
-    }
-
-    .status-subtitle {
-      margin-top: 7px;
-      color: rgba(11, 9, 18, .47);
-      font-size: 10px;
-    }
-
-    .floating-chip {
-      position: absolute;
-      z-index: 7;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 14px;
-      border: 1px solid rgba(11, 9, 18, .1);
-      border-radius: 15px;
-      background: rgba(255, 255, 255, .46);
-      box-shadow: 0 18px 45px rgba(65, 47, 107, .1);
-      color: rgba(11, 9, 18, .7);
-      font-size: 9px;
-      font-weight: 800;
-      pointer-events: none;
-      backdrop-filter: blur(18px);
-      animation: chipFloat 5s ease-in-out infinite;
-    }
-
-    .floating-chip small {
-      display: block;
-      margin-bottom: 3px;
-      color: rgba(11, 9, 18, .38);
-      font-size: 7px;
-      font-weight: 600;
-    }
-
-    .chip-icon {
-      display: grid;
-      width: 30px;
-      height: 30px;
-      place-items: center;
-      border-radius: 10px;
-      background: var(--ink);
-      color: var(--lilac);
-    }
-
-    .chip--one {
-      top: 20%;
-      right: 12%;
-    }
-
-    .chip--two {
-      bottom: 19%;
-      left: 11%;
-      animation-delay: -2.3s;
-    }
-
-    .floating-star {
-      position: absolute;
-      z-index: 6;
-      color: var(--violet-deep);
-      pointer-events: none;
-      animation: starFloat 5s ease-in-out infinite;
-    }
-
-    .star--one {
-      top: 19%;
-      left: 14%;
-      font-size: 27px;
-    }
-
-    .star--two {
-      right: 17%;
-      bottom: 20%;
-      color: #5aa8af;
-      font-size: 19px;
-      animation-delay: -2s;
-    }
-
-    .star--three {
-      top: 42%;
-      right: 8%;
-      color: var(--pink);
-      font-size: 15px;
-      animation-delay: -3.5s;
-    }
-
-    .ticker {
-      position: absolute;
-      z-index: 3;
-      right: 0;
-      bottom: 24px;
-      left: 0;
-      overflow: hidden;
-      border-block: 1px solid rgba(11, 9, 18, .075);
-      background: rgba(255, 255, 255, .13);
-      color: rgba(11, 9, 18, .36);
-      pointer-events: none;
-      transform: rotate(1deg) scale(1.02);
-    }
-
-    .ticker-track {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-      width: max-content;
-      padding: 10px 0;
-      animation: ticker 30s linear infinite;
-    }
-
-    .ticker-track span {
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: .14em;
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .15em;
       text-transform: uppercase;
-      white-space: nowrap;
     }
 
-    .ticker-track i {
-      color: var(--violet-deep);
-      font-style: normal;
+    h1 {
+      max-width: 620px;
+      margin: 0;
+      font-size: clamp(42px, 7vw, 76px);
+      font-weight: 650;
+      letter-spacing: -.075em;
+      line-height: .97;
     }
 
-    .toast {
-      position: fixed;
-      z-index: 120;
-      right: max(18px, env(safe-area-inset-right));
-      bottom: max(18px, env(safe-area-inset-bottom));
+    h1 span { color: var(--accent); }
+
+    .lead {
+      max-width: 410px;
+      margin: 23px auto 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .connection {
+      position: relative;
+      display: grid;
+      width: min(100%, 360px);
+      margin: 42px auto 0;
+      padding: 32px 28px 26px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--panel);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .22), inset 0 1px 0 rgba(255,255,255,.035);
+      backdrop-filter: blur(18px);
+      place-items: center;
+    }
+
+    .connection::before {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: rgba(154, 252, 189, .09);
+      content: "";
+      filter: blur(30px);
+      transform: translateX(-50%);
+      transition: background .4s ease;
+    }
+
+    .orb-wrap {
+      position: relative;
+      display: grid;
+      width: 146px;
+      height: 146px;
+      margin-bottom: 22px;
+      place-items: center;
+    }
+
+    .ring, .ring::after {
+      position: absolute;
+      border: 1px solid rgba(154, 252, 189, .2);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .ring { inset: 0; }
+    .ring::after { inset: 13px; }
+
+    .power {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 94px;
+      height: 94px;
+      padding: 0;
+      border: 1px solid rgba(154, 252, 189, .38);
+      border-radius: 50%;
+      background: linear-gradient(145deg, #253c32, #13211b);
+      box-shadow: 0 0 0 10px rgba(154, 252, 189, .04), 0 15px 35px rgba(0,0,0,.24), inset 0 1px 1px rgba(255,255,255,.12);
+      color: var(--accent);
+      cursor: pointer;
+      outline: none;
+      place-items: center;
+      transition: transform .25s ease, background .35s ease, color .35s ease, box-shadow .35s ease;
+    }
+
+    .power:hover { transform: scale(1.045); }
+    .power:active { transform: scale(.96); }
+    .power:focus-visible { outline: 3px solid #fff; outline-offset: 5px; }
+    .power svg { width: 35px; height: 35px; }
+
+    .state { position: relative; z-index: 1; }
+    .state strong { display: block; font-size: 16px; font-weight: 670; letter-spacing: -.025em; }
+    .state span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; }
+
+    .connect-button {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 48px;
+      margin-top: 23px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--accent);
+      color: #082013;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 740;
+      letter-spacing: -.02em;
+      transition: transform .2s ease, background .25s ease;
+    }
+
+    .connect-button:hover { transform: translateY(-2px); }
+    .connect-button:active { transform: translateY(0); }
+    .connect-button:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+
+    .connection.is-connecting .power,
+    .connection.is-connected .power {
+      background: linear-gradient(145deg, #c5ffda, #4ce286);
+      color: #0c5630;
+      box-shadow: 0 0 0 10px rgba(154, 252, 189, .08), 0 0 35px rgba(79, 237, 143, .28), inset 0 1px 1px rgba(255,255,255,.72);
+    }
+
+    .connection.is-connecting .ring { animation: pulse 1.15s ease-out infinite; }
+    .connection.is-connected .ring { border-color: rgba(154, 252, 189, .62); }
+    .connection.is-connected::before { background: rgba(154, 252, 189, .18); }
+    .connection.is-connected .connect-button { background: transparent; border: 1px solid rgba(255,255,255,.15); color: var(--text); }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: min(100%, 520px);
+      margin: 31px auto 0;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, .025);
+    }
+
+    .detail { padding: 12px 9px; }
+    .detail + .detail { border-left: 1px solid var(--line); }
+    .detail b { display: block; color: var(--text); font-size: 12px; font-weight: 620; }
+    .detail small { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; }
+
+    footer {
       display: flex;
       align-items: center;
-      gap: 10px;
-      max-width: min(390px, calc(100% - 36px));
-      padding: 14px 17px;
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 15px;
-      background: rgba(11, 9, 18, .94);
-      box-shadow: 0 18px 55px rgba(0, 0, 0, .38);
-      color: rgba(255, 255, 255, .76);
-      font-size: 10px;
-      line-height: 1.5;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(20px);
-      transition:
-        opacity .3s ease,
-        transform .5s var(--spring);
-      backdrop-filter: blur(18px);
+      justify-content: space-between;
+      gap: 18px;
+      color: #6f7887;
+      font-size: 11px;
     }
 
-    .toast.is-visible {
-      opacity: 1;
-      transform: translateY(0);
+    footer p { margin: 0; }
+    .how { color: inherit; text-underline-offset: 3px; }
+
+    dialog {
+      width: min(calc(100% - 32px), 430px);
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #121821;
+      box-shadow: 0 26px 80px rgba(0, 0, 0, .55);
+      color: var(--text);
     }
 
-    .toast-star {
-      color: var(--lilac);
-    }
+    dialog::backdrop { background: rgba(0, 0, 0, .62); backdrop-filter: blur(4px); }
 
-    @keyframes titleIn {
-      to {
-        opacity: 1;
-        transform: translateY(0) rotate(0);
-      }
-    }
+    .dialog-content { padding: 26px; }
+    .dialog-top { display: flex; align-items: start; justify-content: space-between; gap: 20px; }
+    .dialog-content h2 { margin: 0; font-size: 21px; letter-spacing: -.04em; }
+    .dialog-content p { margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .close { width: 30px; height: 30px; border: 0; border-radius: 8px; background: rgba(255,255,255,.07); color: var(--text); cursor: pointer; font-size: 20px; line-height: 1; }
+    .setup { display: grid; gap: 9px; margin-top: 22px; }
+    .setup label { color: #aeb7c4; font-size: 11px; font-weight: 650; }
+    .setup input { width: 100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 11px; outline: none; background: #0c1118; color: var(--text); font-size: 12px; }
+    .setup input:focus { border-color: var(--accent); }
+    .save { min-height: 43px; margin-top: 4px; border: 0; border-radius: 11px; background: var(--accent); color: #082013; cursor: pointer; font-weight: 730; }
+    .hint { margin-top: 14px !important; font-size: 11px !important; }
 
-    @keyframes rise {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    @keyframes drift { to { transform: translate(8vmax, 6vmax) scale(1.12); } }
+    @keyframes pulse { 0% { transform: scale(.8); opacity: .2; } 60% { opacity: .8; } 100% { transform: scale(1.1); opacity: .1; } }
 
-    @keyframes morph {
-      0%,
-      100% {
-        border-radius: 44% 56% 48% 52% / 52% 42% 58% 48%;
-      }
-
-      50% {
-        border-radius: 58% 42% 57% 43% / 42% 59% 41% 58%;
-      }
-    }
-
-    @keyframes glowFloat {
-      to {
-        transform: translate(80px, -50px) scale(1.13);
-      }
-    }
-
-    @keyframes markFloat {
-      0%,
-      100% {
-        transform: rotate(0) scale(1);
-      }
-
-      50% {
-        transform: rotate(90deg) scale(1.08);
-      }
-    }
-
-    @keyframes ping {
-      0% {
-        opacity: .8;
-        transform: scale(.7);
-      }
-
-      80%,
-      100% {
-        opacity: 0;
-        transform: scale(1.8);
-      }
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes breathe {
-      50% {
-        opacity: .45;
-        transform: scale(1.08);
-      }
-    }
-
-    @keyframes wordDrift {
-      0% {
-        translate: -5% 0;
-      }
-
-      100% {
-        translate: 5% 0;
-      }
-    }
-
-    @keyframes dash {
-      to {
-        stroke-dashoffset: -380;
-      }
-    }
-
-    @keyframes levitate {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-13px);
-      }
-    }
-
-    @keyframes ripple {
-      0% {
-        opacity: 0;
-        transform: scale(.68);
-      }
-
-      25% {
-        opacity: .8;
-      }
-
-      100% {
-        opacity: 0;
-        transform: scale(1.52);
-      }
-    }
-
-    @keyframes chipFloat {
-      0%,
-      100% {
-        transform: translateY(0) rotate(1deg);
-      }
-
-      50% {
-        transform: translateY(-11px) rotate(-2deg);
-      }
-    }
-
-    @keyframes starFloat {
-      0%,
-      100% {
-        opacity: .45;
-        transform: translate(0, 0) rotate(0) scale(.85);
-      }
-
-      50% {
-        opacity: 1;
-        transform: translate(10px, -15px) rotate(90deg) scale(1.18);
-      }
-    }
-
-    @keyframes ticker {
-      to {
-        transform: translateX(-50%);
-      }
-    }
-
-    @media (max-width: 850px) {
-      .hero-copy {
-        grid-template-columns: 1fr;
-        gap: 22px;
-      }
-
-      .hero-side {
-        max-width: 540px;
-      }
-
-      .portal-zone {
-        min-height: 570px;
-      }
-
-      .chip--one {
-        right: 6%;
-      }
-
-      .chip--two {
-        left: 5%;
-      }
-    }
-
-    @media (max-width: 600px) {
-      :root {
-        --tg-top: calc(
-          max(24px, env(safe-area-inset-top, 0px)) +
-          var(--tg-safe-area-inset-top, 0px) +
-          var(--tg-content-safe-area-inset-top, 0px)
-        );
-      }
-
-      .page {
-        padding-inline: 8px;
-      }
-
-      .freedom-card {
-        padding: 20px 17px 17px;
-        border-radius: 28px;
-      }
-
-      .freedom-card::before {
-        top: -190px;
-        right: -190px;
-        width: 430px;
-        height: 430px;
-      }
-
-      .brand {
-        gap: 7px;
-        font-size: 11px;
-      }
-
-      .brand-mark {
-        width: 30px;
-        height: 30px;
-        border-radius: 9px;
-      }
-
-      .free-pill {
-        padding: 8px 10px;
-        font-size: 7px;
-      }
-
-      .hero-copy {
-        margin-top: 62px;
-      }
-
-      .hero-title {
-        font-size: clamp(42px, 12.4vw, 64px);
-      }
-
-      .hero-side p {
-        font-size: 13px;
-      }
-
-      .portal-zone {
-        min-height: 540px;
-        margin-top: 48px;
-        border-radius: 25px;
-      }
-
-      .kinetic-word {
-        font-size: 24vw;
-      }
-
-      .kinetic-word--one {
-        top: 15%;
-      }
-
-      .kinetic-word--two {
-        bottom: 15%;
-      }
-
-      .orbit {
-        width: 420px;
-        min-width: 420px;
-      }
-
-      .orbit--outer {
-        width: 540px;
-        min-width: 540px;
-      }
-
-      .power-shell {
-        width: 235px;
-      }
-
-      .floating-chip {
-        padding: 9px 10px;
-        scale: .88;
-      }
-
-      .chip--one {
-        top: 13%;
-        right: -7%;
-      }
-
-      .chip--two {
-        bottom: 13%;
-        left: -8%;
-      }
-
-      .star--one {
-        top: 22%;
-        left: 6%;
-      }
-
-      .star--two {
-        right: 7%;
-        bottom: 22%;
-      }
-
-      .star--three {
-        display: none;
-      }
-
-      .ticker {
-        bottom: 17px;
-      }
-    }
-
-    @media (max-width: 390px) {
-      .free-pill span:last-child {
-        display: none;
-      }
-
-      .free-pill {
-        width: 31px;
-        height: 31px;
-        padding: 0;
-        justify-content: center;
-      }
-
-      .hero-title {
-        font-size: 11.7vw;
-      }
-
-      .portal-zone {
-        min-height: 510px;
-      }
-
-      .power-shell {
-        width: 215px;
-      }
-
-      .status-title {
-        font-size: 14px;
-      }
+    @media (max-width: 560px) {
+      .page { padding: 22px 18px 20px; }
+      main { padding: 36px 0; }
+      h1 { font-size: clamp(39px, 13vw, 59px); }
+      .lead { font-size: 14px; }
+      .connection { margin-top: 35px; }
+      .free { font-size: 11px; }
+      footer { align-items: flex-start; flex-direction: column; gap: 8px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-      }
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
-
 <body>
-  <div class="noise" aria-hidden="true"></div>
-  <canvas id="stardust" aria-hidden="true"></canvas>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="page">
+    <header>
+      <a class="brand" href="#top" aria-label="сказочный.vpn">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>сказочный<span class="brand-dot">.</span>vpn</span>
+      </a>
+      <span class="free">всегда бесплатно</span>
+    </header>
 
-  <main class="page">
-    <section class="freedom-card" aria-labelledby="main-title">
-      <div class="meta-row">
-        <div class="brand">
-          <span class="brand-mark" aria-hidden="true">✦</span>
-          <span>сказочный<span class="brand-dot">.</span>vpn</span>
-        </div>
+    <main id="top">
+      <section aria-labelledby="headline">
+        <p class="eyebrow">Свободный интернет</p>
+        <h1 id="headline">Откройте интернет.<br><span>Без лишнего.</span></h1>
+        <p class="lead">Быстрое защищённое подключение — бесплатно, без рекламы и подписок.</p>
 
-        <div class="free-pill">
-          <i aria-hidden="true"></i>
-          <span>Бесплатный доступ</span>
-        </div>
-      </div>
-
-      <div class="hero-copy">
-        <h1 class="hero-title" id="main-title">
-          <span class="title-line">
-            <span>Интернет задумывался</span>
-          </span>
-
-          <span class="title-line">
-            <span>свободным.</span>
-          </span>
-        </h1>
-
-        <div class="hero-side">
-          <p>
-            Мы просто помогаем ему оставаться таким — без сложных
-            настроек, лишнего шума и препятствий.
-          </p>
-
-          <span class="signature">
-            С заботой о свободе
-          </span>
-        </div>
-      </div>
-
-      <div class="portal-zone" data-portal-zone>
-        <div
-          class="kinetic-word kinetic-word--one"
-          aria-hidden="true"
-        >
-          свобода
-        </div>
-
-        <div
-          class="kinetic-word kinetic-word--two"
-          aria-hidden="true"
-        >
-          интернет
-        </div>
-
-        <svg
-          class="energy-map"
-          viewBox="0 0 1000 600"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient
-              id="portalGradient"
-              x1="0"
-              y1="0"
-              x2="1"
-              y2="1"
-            >
-              <stop
-                offset="0"
-                stop-color="#8ceaf4"
-              ></stop>
-
-              <stop
-                offset=".5"
-                stop-color="#8f70ee"
-              ></stop>
-
-              <stop
-                offset="1"
-                stop-color="#ff9ce8"
-              ></stop>
-            </linearGradient>
-          </defs>
-
-          <path
-            class="path-soft"
-            d="M-50 440C170 80 340 560 520 300S810 50 1060 230"
-          ></path>
-
-          <path
-            class="path-soft"
-            d="M-50 150C170 420 350 30 550 260S810 560 1060 350"
-          ></path>
-
-          <path
-            class="path-glow"
-            d="M-50 440C170 80 340 560 520 300S810 50 1060 230"
-          ></path>
-
-          <path
-            class="path-glow"
-            d="M-50 150C170 420 350 30 550 260S810 560 1060 350"
-          ></path>
-        </svg>
-
-        <div
-          class="orbit orbit--inner"
-          aria-hidden="true"
-        ></div>
-
-        <div
-          class="orbit orbit--outer"
-          aria-hidden="true"
-        ></div>
-
-        <span
-          class="floating-star star--one"
-          data-parallax="18"
-          aria-hidden="true"
-        >
-          ✦
-        </span>
-
-        <span
-          class="floating-star star--two"
-          data-parallax="-15"
-          aria-hidden="true"
-        >
-          ✧
-        </span>
-
-        <span
-          class="floating-star star--three"
-          data-parallax="12"
-          aria-hidden="true"
-        >
-          ✦
-        </span>
-
-        <div
-          class="floating-chip chip--one"
-          data-parallax="16"
-          aria-hidden="true"
-        >
-          <span class="chip-icon">✦</span>
-
-          <span>
-            <small>Статус</small>
-            Всё волшебно
-          </span>
-        </div>
-
-        <div
-          class="floating-chip chip--two"
-          data-parallax="-14"
-          aria-hidden="true"
-        >
-          <span class="chip-icon">in</span>
-
-          <span>
-            <small>Приложение</small>
-            Готово для INCY
-          </span>
-        </div>
-
-        <div class="control-wrap" data-control>
-          <div class="power-shell">
-            <div
-              class="ripple ripple--one"
-              aria-hidden="true"
-            ></div>
-
-            <div
-              class="ripple ripple--two"
-              aria-hidden="true"
-            ></div>
-
-            <button
-              class="power-button"
-              type="button"
-              data-add-subscription
-              aria-label="Добавить подписку Сказочного VPN в INCY"
-            >
-              <span
-                class="power-shimmer"
-                aria-hidden="true"
-              ></span>
-
-              <span class="power-core">
-                <svg
-                  viewBox="0 0 32 32"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M16 4v12"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                  ></path>
-
-                  <path
-                    d="M9.25 8.7A10.5 10.5 0 1 0 22.8 8.6"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                  ></path>
-                </svg>
-              </span>
+        <div class="connection" id="connection" aria-live="polite">
+          <div class="orb-wrap" aria-hidden="true">
+            <div class="ring"></div>
+            <button class="power" id="power" type="button" aria-label="Подключиться">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 2v10"/><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/></svg>
             </button>
           </div>
-
-          <div class="control-status">
-            <span class="status-title" data-status>
-              Добавить подписку
-            </span>
-
-            <span class="status-subtitle" data-subtitle>
-              Нажмите — профиль откроется в INCY
-            </span>
+          <div class="state">
+            <strong id="state-title">Готово к подключению</strong>
+            <span id="state-copy">Выберите кнопку ниже</span>
           </div>
+          <button class="connect-button" id="connect" type="button">Подключиться бесплатно</button>
         </div>
 
-        <div class="ticker" aria-hidden="true">
-          <div class="ticker-track">
-            <span>Сказочный VPN</span>
-            <i>✦</i>
-            <span>Одно касание</span>
-            <i>✦</i>
-            <span>Бесплатно</span>
-            <i>✦</i>
-            <span>Открытый интернет</span>
-            <i>✦</i>
-
-            <span>Сказочный VPN</span>
-            <i>✦</i>
-            <span>Одно касание</span>
-            <i>✦</i>
-            <span>Бесплатно</span>
-            <i>✦</i>
-            <span>Открытый интернет</span>
-            <i>✦</i>
-          </div>
+        <div class="details" aria-label="Преимущества сервиса">
+          <div class="detail"><b>0 ₽</b><small>без подписки</small></div>
+          <div class="detail"><b>Без рекламы</b><small>ничего лишнего</small></div>
+          <div class="detail"><b>1 касание</b><small>до защиты</small></div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
 
-  <div
-    class="toast"
-    role="status"
-    aria-live="polite"
-  >
-    <span class="toast-star" aria-hidden="true">✦</span>
-    <span data-toast-copy></span>
+    <footer>
+      <p>сказочный.vpn · приватность — это нормально</p>
+      <a class="how" href="#" id="setup-link">Настроить подключение</a>
+    </footer>
   </div>
+
+  <dialog id="setup-dialog" aria-labelledby="setup-title">
+    <form class="dialog-content" id="setup-form" method="dialog">
+      <div class="dialog-top">
+        <div>
+          <h2 id="setup-title">Настроить сервис</h2>
+          <p>Вставьте защищённую ссылку подписки вашего VPN-сервиса. Она останется только в этом браузере.</p>
+        </div>
+        <button class="close" id="close-dialog" type="button" aria-label="Закрыть">×</button>
+      </div>
+      <div class="setup">
+        <label for="subscription-url">Ссылка подключения</label>
+        <input id="subscription-url" name="subscription-url" type="url" placeholder="https://…" autocomplete="url" inputmode="url" />
+        <button class="save" type="submit">Сохранить и подключиться</button>
+      </div>
+      <p class="hint">Поддерживаются ссылки приложений и страницы конфигурации. Не передавайте их посторонним.</p>
+    </form>
+  </dialog>
 
   <script>
     (() => {
-      const config =
-        window.SKAZOCHNY_VPN_CONFIG || {};
+      const connection = document.querySelector('#connection');
+      const power = document.querySelector('#power');
+      const connect = document.querySelector('#connect');
+      const title = document.querySelector('#state-title');
+      const copy = document.querySelector('#state-copy');
+      const dialog = document.querySelector('#setup-dialog');
+      const setupLink = document.querySelector('#setup-link');
+      const closeDialog = document.querySelector('#close-dialog');
+      const form = document.querySelector('#setup-form');
+      const urlField = document.querySelector('#subscription-url');
+      const storedUrl = localStorage.getItem('skazochny-vpn-url') || '';
+      urlField.value = storedUrl;
 
-      const query =
-        new URLSearchParams(window.location.search);
-
-      const button = document.querySelector(
-        "[data-add-subscription]"
-      );
-
-      const control = document.querySelector(
-        "[data-control]"
-      );
-
-      const status = document.querySelector(
-        "[data-status]"
-      );
-
-      const subtitle = document.querySelector(
-        "[data-subtitle]"
-      );
-
-      const toast = document.querySelector(
-        ".toast"
-      );
-
-      const toastCopy = document.querySelector(
-        "[data-toast-copy]"
-      );
-
-      const portalZone = document.querySelector(
-        "[data-portal-zone]"
-      );
-
-      const parallaxItems = [
-        ...document.querySelectorAll(
-          "[data-parallax]"
-        )
-      ];
-
-      const allowedProtocols = [
-        "http:",
-        "https:",
-        "vless:",
-        "vmess:",
-        "trojan:",
-        "ss:",
-        "hysteria2:",
-        "wireguard:"
-      ];
-
-      let subscriptionUrl = (
-        query.get("subscription") ||
-        config.subscriptionUrl ||
-        ""
-      ).trim();
-
-      let busy = false;
-      let toastTimer;
-
-      function showToast(message) {
-        toastCopy.textContent = message;
-        toast.classList.add("is-visible");
-
-        clearTimeout(toastTimer);
-
-        toastTimer = setTimeout(() => {
-          toast.classList.remove("is-visible");
-        }, 4200);
+      function setState(state) {
+        connection.classList.remove('is-connecting', 'is-connected');
+        if (state === 'ready') {
+          title.textContent = 'Готово к подключению';
+          copy.textContent = 'Выберите кнопку ниже';
+          connect.textContent = 'Подключиться бесплатно';
+          power.setAttribute('aria-label', 'Подключиться');
+        }
+        if (state === 'connecting') {
+          connection.classList.add('is-connecting');
+          title.textContent = 'Подключаемся…';
+          copy.textContent = 'Создаём защищённый канал';
+          connect.textContent = 'Подключаемся…';
+          power.setAttribute('aria-label', 'Подключение выполняется');
+        }
+        if (state === 'connected') {
+          connection.classList.add('is-connected');
+          title.textContent = 'Защита включена';
+          copy.textContent = 'Ваше соединение защищено';
+          connect.textContent = 'Отключиться';
+          power.setAttribute('aria-label', 'Отключиться');
+        }
       }
 
-      function isValidSubscription(value) {
+      function startConnection() {
+        const url = localStorage.getItem('skazochny-vpn-url');
+        if (!url) {
+          dialog.showModal();
+          urlField.focus();
+          return;
+        }
+        setState('connecting');
+        window.setTimeout(() => {
+          setState('connected');
+          // Для VPN-ссылок приложение обработает переход; для web-конфигураций откроется страница.
+          window.location.assign(url);
+        }, 650);
+      }
+
+      function handleConnection() {
+        if (connection.classList.contains('is-connected')) {
+          setState('ready');
+          return;
+        }
+        if (!connection.classList.contains('is-connecting')) startConnection();
+      }
+
+      connect.addEventListener('click', handleConnection);
+      power.addEventListener('click', handleConnection);
+      setupLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        dialog.showModal();
+        urlField.focus();
+      });
+      closeDialog.addEventListener('click', () => dialog.close());
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const url = urlField.value.trim();
         try {
-          return allowedProtocols.includes(
-            new URL(value).protocol
-          );
+          const parsed = new URL(url);
+          if (!['https:', 'http:', 'vless:', 'vmess:', 'ss:', 'trojan:', 'hysteria2:'].includes(parsed.protocol)) throw new Error('protocol');
+          localStorage.setItem('skazochny-vpn-url', url);
+          dialog.close();
+          startConnection();
         } catch {
-          return false;
+          urlField.setCustomValidity('Введите корректную ссылку подключения.');
+          urlField.reportValidity();
+          urlField.addEventListener('input', () => urlField.setCustomValidity(''), { once: true });
         }
-      }
-
-      function requestSubscriptionUrl() {
-        if (subscriptionUrl) {
-          return subscriptionUrl;
-        }
-
-        const entered = window.prompt(
-          "Вставьте ссылку подписки Сказочного VPN для добавления в INCY:"
-        );
-
-        return entered ? entered.trim() : "";
-      }
-
-      function addSubscription() {
-        if (busy) {
-          return;
-        }
-
-        const value =
-          requestSubscriptionUrl();
-
-        if (!value) {
-          showToast(
-            "Для добавления нужна ссылка подписки."
-          );
-
-          return;
-        }
-
-        if (!isValidSubscription(value)) {
-          showToast(
-            "Проверьте ссылку подписки — она указана в неверном формате."
-          );
-
-          return;
-        }
-
-        subscriptionUrl = value;
-        busy = true;
-        button.disabled = true;
-
-        status.textContent =
-          "Открываем INCY…";
-
-        subtitle.textContent =
-          "Передаём подписку в приложение";
-
-        showToast(
-          "Добавляем Сказочный VPN в INCY…"
-        );
-
-        setTimeout(() => {
-          control.classList.add(
-            "is-connected"
-          );
-
-          status.textContent =
-            "Подписка готова";
-
-          subtitle.textContent =
-            "Подтвердите добавление в INCY";
-        }, 480);
-
-        window.location.href =
-          `incy://import/${subscriptionUrl}`;
-
-        setTimeout(() => {
-          busy = false;
-          button.disabled = false;
-
-          showToast(
-            "Если INCY не открылся, установите приложение и нажмите ещё раз."
-          );
-        }, 1900);
-      }
-
-      button.addEventListener(
-        "click",
-        addSubscription
-      );
-
-      if (
-        matchMedia(
-          "(hover: hover) and (prefers-reduced-motion: no-preference)"
-        ).matches
-      ) {
-        portalZone.addEventListener(
-          "pointermove",
-          (event) => {
-            const rect =
-              portalZone.getBoundingClientRect();
-
-            const x =
-              (event.clientX - rect.left) /
-              rect.width -
-              .5;
-
-            const y =
-              (event.clientY - rect.top) /
-              rect.height -
-              .5;
-
-            parallaxItems.forEach((item) => {
-              const strength = Number(
-                item.dataset.parallax || 10
-              );
-
-              item.style.translate =
-                `${x * strength}px ` +
-                `${y * strength}px`;
-            });
-          }
-        );
-
-        portalZone.addEventListener(
-          "pointerleave",
-          () => {
-            parallaxItems.forEach((item) => {
-              item.style.translate = "";
-            });
-          }
-        );
-      }
-
-      const canvas = document.querySelector(
-        "#stardust"
-      );
-
-      const context =
-        canvas.getContext("2d");
-
-      const reduceMotion = matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-
-      let stars = [];
-      let width = 0;
-      let height = 0;
-      let dpr = 1;
-
-      function resizeCanvas() {
-        dpr = Math.min(
-          devicePixelRatio || 1,
-          2
-        );
-
-        width = innerWidth;
-        height = innerHeight;
-
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-
-        canvas.style.width =
-          `${width}px`;
-
-        canvas.style.height =
-          `${height}px`;
-
-        context.setTransform(
-          dpr,
-          0,
-          0,
-          dpr,
-          0,
-          0
-        );
-
-        const amount = Math.min(
-          65,
-          Math.max(
-            25,
-            Math.floor(width / 21)
-          )
-        );
-
-        stars = Array.from(
-          {
-            length: amount
-          },
-          () => ({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            r: Math.random() * 1.1 + .25,
-            speed: Math.random() * .07 + .015,
-            alpha: Math.random() * .38 + .1,
-            phase: Math.random() * Math.PI * 2
-          })
-        );
-      }
-
-      function paint(time = 0) {
-        context.clearRect(
-          0,
-          0,
-          width,
-          height
-        );
-
-        stars.forEach((star) => {
-          star.y -= star.speed;
-
-          if (star.y < -3) {
-            star.y = height + 3;
-          }
-
-          const alpha =
-            star.alpha *
-            (
-              .72 +
-              Math.sin(
-                time * .0012 +
-                star.phase
-              ) *
-              .28
-            );
-
-          context.beginPath();
-
-          context.fillStyle =
-            `rgba(207,194,255,${alpha})`;
-
-          context.arc(
-            star.x,
-            star.y,
-            star.r,
-            0,
-            Math.PI * 2
-          );
-
-          context.fill();
-        });
-
-        if (!reduceMotion) {
-          requestAnimationFrame(paint);
-        }
-      }
-
-      resizeCanvas();
-      paint();
-
-      let resizeTimer;
-
-      addEventListener(
-        "resize",
-        () => {
-          clearTimeout(resizeTimer);
-
-          resizeTimer = setTimeout(
-            resizeCanvas,
-            120
-          );
-        },
-        {
-          passive: true
-        }
-      );
+      });
     })();
   </script>
 </body>
