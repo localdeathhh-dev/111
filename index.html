@@ -1,858 +1,145 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f4f4f1" />
-  <meta name="description" content="сказочный.vpn — личный маршрут к свободному интернету." />
-  <title>сказочный.vpn</title>
-  <style>
-    :root {
-      --paper: #f4f4f1;
-      --white: #fff;
-      --ink: #0b0b0b;
-      --graphite: #30302e;
-      --grey: #a5a5a0;
-      --line: rgba(11, 11, 11, .18);
-      --serif: "Times New Roman", Times, serif;
-      --sans: Arial, Helvetica, sans-serif;
-      --mono: "Courier New", Courier, monospace;
-    }
-
-    * { box-sizing: border-box; }
-    html { min-width: 320px; background: var(--paper); }
-
-    body {
-      min-width: 320px;
-      margin: 0;
-      overflow-x: hidden;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--sans);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    button, input { font: inherit; }
-    button { -webkit-tap-highlight-color: transparent; }
-    a { color: inherit; }
-    ::selection { background: var(--ink); color: var(--paper); }
-
-    .page {
-      width: min(100%, 1540px);
-      min-height: 100svh;
-      margin: 0 auto;
-      padding: 20px 28px 25px;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 31px;
-      padding-bottom: 17px;
-      border-bottom: 1px solid var(--ink);
-      gap: 14px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: -.04em;
-      text-decoration: none;
-    }
-
-    .brand-symbol {
-      position: relative;
-      display: block;
-      width: 21px;
-      height: 21px;
-      border: 1px solid var(--ink);
-      border-radius: 50%;
-    }
-
-    .brand-symbol::before,
-    .brand-symbol::after {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      background: var(--ink);
-      content: "";
-      transform: translate(-50%, -50%);
-    }
-
-    .brand-symbol::before { width: 9px; height: 1px; }
-    .brand-symbol::after { width: 1px; height: 9px; }
-    .brand i { font-style: normal; }
-
-    .header-note {
-      font: 9px/1 var(--mono);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .header-note::before {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      margin-right: 7px;
-      border-radius: 50%;
-      background: var(--ink);
-      content: "";
-      vertical-align: 1px;
-    }
-
-    .main {
-      display: grid;
-      min-height: calc(100svh - 76px);
-      padding: clamp(47px, 7.4vh, 96px) 0 28px;
-      grid-template-rows: auto 1fr;
-      gap: clamp(45px, 6.5vh, 84px);
-    }
-
-    .statement {
-      position: relative;
-      text-align: center;
-    }
-
-    .statement small {
-      display: inline-block;
-      margin-bottom: clamp(18px, 2.5vw, 32px);
-      color: var(--graphite);
-      font: 9px/1 var(--mono);
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      max-width: 1180px;
-      margin: 0 auto;
-      font-family: var(--serif);
-      font-size: clamp(65px, 9vw, 153px);
-      font-weight: 400;
-      letter-spacing: -.1em;
-      line-height: .69;
-    }
-
-    h1 span { display: block; }
-    h1 span:nth-child(2) {
-      padding-left: clamp(22px, 5.4vw, 92px);
-      font-style: italic;
-    }
-
-    h1 span:nth-child(3) {
-      padding-right: clamp(4px, 1.2vw, 20px);
-    }
-
-    .statement-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 900px;
-      margin: clamp(31px, 5vw, 66px) auto 0;
-      padding-top: 13px;
-      border-top: 1px solid var(--line);
-      color: var(--graphite);
-      font: 9px/1.5 var(--mono);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-
-    .statement-meta b {
-      color: var(--ink);
-      font-weight: 400;
-    }
-
-    .chamber {
-      position: relative;
-      display: grid;
-      width: min(100%, 1050px);
-      min-height: clamp(400px, 48vh, 580px);
-      margin: 0 auto;
-      overflow: hidden;
-      border-radius: 52% 52% 0 0 / 22% 22% 0 0;
-      background: var(--ink);
-      isolation: isolate;
-      place-items: center;
-    }
-
-    .chamber::before {
-      position: absolute;
-      z-index: -2;
-      top: 32px;
-      right: 32px;
-      bottom: 0;
-      left: 32px;
-      border: 1px solid rgba(255,255,255,.29);
-      border-bottom: 0;
-      border-radius: 50% 50% 0 0 / 20% 20% 0 0;
-      content: "";
-    }
-
-    .chamber::after {
-      position: absolute;
-      z-index: -1;
-      top: 50%;
-      left: 50%;
-      width: min(50vw, 560px);
-      aspect-ratio: 1;
-      border: 1px solid rgba(255,255,255,.23);
-      border-radius: 50%;
-      box-shadow: 0 0 0 54px rgba(255,255,255,.035), 0 0 0 110px rgba(255,255,255,.017);
-      content: "";
-      transform: translate(-50%, -42%);
-    }
-
-    .contour {
-      position: absolute;
-      z-index: -1;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .contour path {
-      fill: none;
-      stroke: rgba(255,255,255,.21);
-      stroke-width: 1;
-    }
-
-    .contour .live {
-      stroke: #fff;
-      stroke-dasharray: 7 13;
-      animation: drawing 16s linear infinite;
-    }
-
-    .contour circle {
-      fill: var(--paper);
-    }
-
-    .ticket {
-      position: relative;
-      display: grid;
-      width: min(77%, 435px);
-      min-height: 205px;
-      padding: 18px;
-      border: 0;
-      background: var(--paper);
-      color: var(--ink);
-      cursor: pointer;
-      overflow: hidden;
-      text-align: left;
-      transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotate(-2.5deg);
-      box-shadow: 18px 20px 0 rgba(255,255,255,.18), 0 38px 65px rgba(0,0,0,.42);
-      transition: transform .18s ease-out, box-shadow .3s ease;
-    }
-
-    .ticket::before {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 37%;
-      border-left: 1px dashed rgba(11,11,11,.4);
-      background: repeating-linear-gradient(0deg, transparent 0 5px, rgba(11,11,11,.85) 5px 7px, transparent 7px 10px);
-      content: "";
-      mask-image: linear-gradient(to bottom, transparent, black 14%, black 86%, transparent);
-    }
-
-    .ticket::after {
-      position: absolute;
-      top: 19px;
-      right: 19px;
-      width: 48px;
-      height: 48px;
-      border: 1px solid var(--ink);
-      border-radius: 50%;
-      content: "";
-    }
-
-    .ticket:hover {
-      box-shadow: 24px 25px 0 rgba(255,255,255,.35), 0 42px 70px rgba(0,0,0,.48);
-    }
-
-    .ticket:focus-visible {
-      outline: 3px solid white;
-      outline-offset: 7px;
-    }
-
-    .ticket:active {
-      transform: perspective(1100px) rotate(-1deg) scale(.985);
-    }
-
-    .ticket-top,
-    .ticket-bottom {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font: 9px/1 var(--mono);
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-
-    .ticket-top {
-      padding-bottom: 13px;
-      border-bottom: 1px solid var(--line);
-      color: var(--graphite);
-    }
-
-    .ticket-top i {
-      color: var(--ink);
-      font-style: normal;
-    }
-
-    .ticket-core {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      min-height: 112px;
-      grid-template-columns: 48px 1fr;
-      align-items: center;
-      gap: 13px;
-    }
-
-    .ticket-symbol {
-      display: grid;
-      width: 42px;
-      height: 42px;
-      border: 1px solid var(--ink);
-      border-radius: 50%;
-      font: 31px/.8 var(--serif);
-      place-items: center;
-      transition: background .24s ease, color .24s ease, transform .32s ease;
-    }
-
-    .ticket:hover .ticket-symbol {
-      background: var(--ink);
-      color: var(--paper);
-      transform: rotate(90deg);
-    }
-
-    .ticket-core b {
-      display: block;
-      font-family: var(--serif);
-      font-size: 31px;
-      font-weight: 400;
-      letter-spacing: -.08em;
-      line-height: .76;
-    }
-
-    .ticket-core small {
-      display: block;
-      margin-top: 8px;
-      color: var(--graphite);
-      font: 8px/1.3 var(--mono);
-      letter-spacing: .025em;
-    }
-
-    .ticket-bottom {
-      padding-top: 13px;
-      border-top: 1px solid var(--line);
-      color: var(--graphite);
-    }
-
-    .ticket-bottom strong {
-      color: var(--ink);
-      font-weight: 400;
-    }
-
-    .chamber-label {
-      position: absolute;
-      bottom: 26px;
-      left: 36px;
-      display: grid;
-      color: rgba(244,244,241,.53);
-      font: 8px/1.6 var(--mono);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .chamber-label b {
-      color: var(--paper);
-      font-weight: 400;
-    }
-
-    .chamber-label b::before {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      margin-right: 7px;
-      border: 1px solid var(--paper);
-      border-radius: 50%;
-      content: "";
-      vertical-align: 1px;
-    }
-
-    .chamber-index {
-      position: absolute;
-      top: 29px;
-      right: 36px;
-      color: rgba(244,244,241,.56);
-      font: 9px/1 var(--mono);
-      letter-spacing: .1em;
-    }
-
-    .footer {
-      display: grid;
-      width: min(100%, 1050px);
-      margin: 25px auto 0;
-      padding-top: 16px;
-      border-top: 1px solid var(--line);
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .footer span,
-    .footer a {
-      color: var(--graphite);
-      font: 9px/1.45 var(--mono);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-
-    .footer a {
-      color: var(--ink);
-      text-underline-offset: 4px;
-    }
-
-    .footer span:last-child {
-      text-align: right;
-    }
-
-    dialog {
-      width: min(calc(100% - 30px), 490px);
-      padding: 0;
-      overflow: hidden;
-      border: 1px solid var(--ink);
-      border-radius: 0;
-      background: var(--paper);
-      box-shadow: 15px 17px 0 var(--ink), 0 35px 100px rgba(0,0,0,.42);
-      color: var(--ink);
-    }
-
-    dialog::backdrop {
-      background: rgba(11,11,11,.65);
-      backdrop-filter: blur(5px);
-    }
-
-    .dialog-body {
-      padding: 28px;
-    }
-
-    .dialog-top {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .dialog-kicker {
-      margin: 0 0 12px;
-      color: var(--graphite);
-      font: 9px/1 var(--mono);
-      letter-spacing: .11em;
-      text-transform: uppercase;
-    }
-
-    .dialog-title {
-      max-width: 320px;
-      margin: 0;
-      font-family: var(--serif);
-      font-size: 43px;
-      font-weight: 400;
-      letter-spacing: -.09em;
-      line-height: .77;
-    }
-
-    .dialog-close {
-      display: grid;
-      width: 30px;
-      height: 30px;
-      padding: 0;
-      border: 1px solid var(--ink);
-      border-radius: 50%;
-      background: transparent;
-      color: var(--ink);
-      cursor: pointer;
-      font-size: 20px;
-      place-items: center;
-    }
-
-    .dialog-copy {
-      max-width: 365px;
-      margin: 25px 0 0;
-      color: var(--graphite);
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .form {
-      display: grid;
-      gap: 9px;
-      margin-top: 25px;
-    }
-
-    .form label {
-      font: 9px/1 var(--mono);
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-
-    .form input {
-      width: 100%;
-      min-height: 50px;
-      padding: 12px;
-      border: 1px solid var(--ink);
-      border-radius: 0;
-      outline: 0;
-      background: var(--white);
-      color: var(--ink);
-      font: 12px var(--mono);
-    }
-
-    .form input:focus {
-      box-shadow: 4px 4px 0 var(--ink);
-    }
-
-    .form button[type="submit"] {
-      min-height: 50px;
-      border: 0;
-      border-radius: 0;
-      background: var(--ink);
-      color: var(--paper);
-      cursor: pointer;
-      font: 10px/1 var(--mono);
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .form button[type="submit"]:hover {
-      background: var(--graphite);
-    }
-
-    .hint {
-      margin: 16px 0 0;
-      color: var(--graphite);
-      font-size: 10px;
-      line-height: 1.5;
-    }
-
-    @keyframes drawing {
-      to { stroke-dashoffset: -190; }
-    }
-
-    @media (max-width: 680px) {
-      .page {
-        padding: 16px 16px 20px;
-      }
-
-      .header {
-        padding-bottom: 14px;
-      }
-
-      .header-note {
-        font-size: 8px;
-      }
-
-      .main {
-        padding-top: 53px;
-        gap: 49px;
-      }
-
-      h1 {
-        font-size: clamp(58px, 17.1vw, 79px);
-        line-height: .73;
-      }
-
-      h1 span:nth-child(2) {
-        padding-left: 32px;
-      }
-
-      .statement-meta {
-        margin-top: 39px;
-      }
-
-      .statement-meta span:last-child {
-        display: none;
-      }
-
-      .chamber {
-        min-height: 465px;
-        border-radius: 48% 48% 0 0 / 16% 16% 0 0;
-      }
-
-      .chamber::before {
-        top: 17px;
-        right: 17px;
-        left: 17px;
-      }
-
-      .ticket {
-        width: min(83%, 350px);
-        min-height: 194px;
-        padding: 14px;
-      }
-
-      .ticket-core {
-        min-height: 105px;
-      }
-
-      .ticket-core b {
-        font-size: 28px;
-      }
-
-      .chamber-label {
-        bottom: 19px;
-        left: 21px;
-      }
-
-      .chamber-index {
-        top: 21px;
-        right: 21px;
-      }
-
-      .footer {
-        grid-template-columns: 1fr auto;
-        gap: 11px;
-      }
-
-      .footer span:last-child {
-        display: none;
-      }
-
-      .dialog-body {
-        padding: 23px 20px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-        transition-duration: .01ms !important;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f1">
+<title>сказочный.vpn</title>
+<style>
+:root{--p:#f5f5f1;--i:#090909;--g:#444;--s:"Times New Roman",Times,serif;--m:"Courier New",monospace}*{box-sizing:border-box}html,body{margin:0;min-width:320px;background:var(--p);color:var(--i)}body{overflow-x:clip;font-family:Arial,sans-serif}button,input{font:inherit}button{cursor:pointer}.page{width:min(100%,1450px);min-height:100svh;margin:auto;padding:20px 28px;overflow:clip}.head{display:flex;justify-content:space-between;align-items:center;padding-bottom:17px;border-bottom:1px solid;animation:in .7s both}.brand{font-weight:bold;font-size:13px}.device{font:9px var(--m);letter-spacing:.1em;text-transform:uppercase}.device:before{content:"";display:inline-block;width:7px;height:7px;margin-right:7px;border-radius:50%;background:#111}.hero{padding:clamp(48px,8vh,105px) 0 50px}.eyebrow{text-align:center;margin:0 0 30px;font:9px var(--m);letter-spacing:.12em;text-transform:uppercase;animation:in .7s .15s both}h1{max-width:1180px;margin:auto;text-align:center;font:400 clamp(65px,9vw,150px)/.69 var(--s);letter-spacing:-.1em}h1 span{display:block;animation:title 1s both cubic-bezier(.16,1,.3,1)}h1 span:nth-child(2){padding-left:clamp(22px,5vw,92px);font-style:italic;animation-delay:.1s}h1 span:nth-child(3){animation-delay:.2s}.meta{display:flex;justify-content:space-between;max-width:900px;margin:60px auto 0;padding-top:13px;border-top:1px solid #bbb;color:var(--g);font:9px var(--m);text-transform:uppercase}.dome{position:relative;display:grid;place-items:center;width:min(100%,1050px);min-height:clamp(420px,51vh,590px);margin:75px auto 0;overflow:hidden;border-radius:52% 52% 0 0/22% 22% 0 0;background:var(--i);isolation:isolate;animation:rise 1s .35s both}.dome:before{content:"";position:absolute;inset:28px 32px 0;border:1px solid #777;border-bottom:0;border-radius:50% 50% 0 0/20% 20% 0 0;animation:breathe 5s infinite}.dome:after{content:"";position:absolute;z-index:-1;top:50%;left:50%;width:min(53vw,560px);aspect-ratio:1;border:1px solid #777;border-radius:50%;box-shadow:0 0 0 55px #ffffff0a,0 0 0 110px #ffffff06;animation:orbit 18s linear infinite}.lines{position:absolute;inset:0;width:100%;height:100%;z-index:-1}.lines path{fill:none;stroke:#ffffff42}.lines .live{stroke:#fff;stroke-dasharray:7 13;animation:dash 14s linear infinite}.lines circle{fill:var(--p);animation:pulse 2.5s infinite}.ribbon{position:absolute;z-index:-1;right:-5%;left:-5%;bottom:76px;overflow:hidden;border-block:1px solid #ffffff38;color:#ffffffa6;transform:rotate(-2deg)}.ribbon span{display:block;width:max-content;padding:9px 0;font:9px var(--m);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;animation:scroll 20s linear infinite}.ticket{position:relative;display:grid;width:min(80%,435px);min-height:205px;padding:18px;border:0;background:var(--p);color:#111;text-align:left;overflow:hidden;transform:perspective(1000px) rotateX(var(--x,0deg)) rotateY(var(--y,0deg)) rotate(-2deg);box-shadow:18px 20px #ffffff2b,0 35px 60px #0008;transition:.2s}.ticket:hover{box-shadow:24px 26px #ffffff55,0 40px 70px #000a}.ticket:before{content:"";position:absolute;inset:0 0 0 auto;width:37%;border-left:1px dashed #555;background:repeating-linear-gradient(0deg,transparent 0 5px,#111 5px 7px,transparent 7px 10px);opacity:.75}.top,.bottom{position:relative;z-index:1;display:flex;justify-content:space-between;font:8px var(--m);letter-spacing:.1em;text-transform:uppercase}.top{padding-bottom:13px;border-bottom:1px solid #bbb;color:#444}.core{position:relative;z-index:1;display:grid;grid-template-columns:48px 1fr;gap:13px;align-items:center;min-height:112px}.sign{display:grid;width:42px;height:42px;border:1px solid;border-radius:50%;place-items:center;font:31px/.8 var(--s);transition:.3s}.ticket:hover .sign{background:#111;color:#fff;transform:rotate(90deg)}.core b{display:block;font:400 31px/.76 var(--s);letter-spacing:-.08em}.core small{display:block;margin-top:8px;color:#555;font:8px var(--m)}.bottom{padding-top:13px;border-top:1px solid #bbb;color:#444}.status{position:absolute;left:34px;bottom:23px;margin:0;color:#ffffffa8;font:8px var(--m);text-transform:uppercase}.status b{display:block;color:#fff;font-weight:400}.guide{width:min(100%,1050px);margin:25px auto;padding:23px 0;border-block:1px solid #bbb}.guide h2{max-width:620px;margin:0 0 23px;font:400 clamp(27px,3.2vw,44px)/.93 var(--s);letter-spacing:-.06em}.steps{display:grid;grid-template-columns:repeat(3,1fr)}.step{padding:0 22px}.step+.step{border-left:1px solid #bbb}.step:first-child{padding-left:0}.step b{font:9px var(--m)}.step p{max-width:240px;color:#444;font-size:12px;line-height:1.45}.step strong{color:#111}.foot{display:grid;grid-template-columns:1fr auto 1fr;width:min(100%,1050px);margin:auto;padding-top:16px;border-top:1px solid #bbb;gap:18px}.foot span,.foot a{color:#444;font:9px var(--m);text-transform:uppercase}.foot a{color:#111}.foot a:last-child{text-align:right}dialog{width:min(calc(100% - 30px),490px);padding:0;border:1px solid;background:var(--p);box-shadow:15px 17px #111}dialog::backdrop{background:#000a;backdrop-filter:blur(5px)}.dialog{padding:28px}.dialog h2{margin:0;font:400 43px/.8 var(--s)}.dialog p{color:#444;font-size:13px;line-height:1.5}.form{display:grid;gap:9px}.form input,.form button{min-height:50px;padding:12px;border:1px solid}.form button{border:0;background:#111;color:#fff}@keyframes in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}@keyframes title{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:none}}@keyframes rise{from{opacity:0;transform:translateY(45px)}to{opacity:1;transform:none}}@keyframes dash{to{stroke-dashoffset:-170}}@keyframes pulse{50%{opacity:.3;transform:scale(1.6)}}@keyframes breathe{50%{opacity:.4}}@keyframes orbit{to{transform:translate(-50%,-42%) rotate(360deg)}}@keyframes scroll{to{transform:translateX(-50%)}}@media(max-width:680px){.page{padding:16px}h1{font-size:clamp(46px,14vw,74px);line-height:.76}h1 span:nth-child(2){padding-left:17px}.meta span:last-child,.foot a:last-child{display:none}.dome{min-height:465px;margin-top:50px}.steps{grid-template-columns:1fr;gap:16px}.step,.step:first-child{padding-left:36px;position:relative}.step+.step{border:0}.step b{position:absolute;left:0}.foot{grid-template-columns:1fr auto}.ticket{width:83%}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
-  <div class="page">
-    <header class="header">
-      <a class="brand" href="#top" aria-label="сказочный.vpn, на главную">
-        <span class="brand-symbol" aria-hidden="true"></span>
-        <span>сказочный<i>.</i>vpn</span>
-      </a>
+<div class="page">
+<header class="head"><span class="brand">⊕ сказочный.vpn</span><span class="device" id="device">определяем устройство</span></header>
+<main class="hero">
+<p class="eyebrow">частный доступ / выпуск 01</p>
+<h1><span>Интернет</span><span>задумывался</span><span>свободным.</span></h1>
+<div class="meta"><span>Связь без лишних посредников</span><span>сказочный.vpn / личный маршрут</span></div>
+<section class="dome">
+<svg class="lines" viewBox="0 0 1050 580" preserveAspectRatio="none"><path d="M-30 433C151 155 253 653 477 362S727 153 1080 293"/><path d="M-5 238C144 106 259 380 397 253S624 91 796 183"/><path class="live" d="M-30 433C151 155 253 653 477 362S727 153 1080 293"/><circle cx="477" cy="362" r="7"/></svg>
+<div class="ribbon"><span>подписка бесплатная ✦ подписка бесплатная ✦ подписка бесплатная ✦ подписка бесплатная ✦</span></div>
+<button class="ticket" id="open">
+<span class="top"><span>Бесплатная подписка</span><i id="plat">INCY / free</i></span>
+<span class="core"><span class="sign">↗</span><span><b id="action">открыть<br>INCY</b><small id="sub">установка и подключение бесплатно</small></span></span>
+<span class="bottom"><span id="device-line">iOS · Android · Desktop</span><strong id="store">в приложение ↗</strong></span>
+</button>
+<p class="status">Статус канала<b id="state">бесплатный доступ</b></p>
+</section>
+</main>
+<section class="guide">
+<h2>Зачем платить за свободу того, что должно быть свободным?</h2>
+<div class="steps">
+<article class="step"><b>01</b><p id="install"><strong>Установите INCY.</strong> Подбираем загрузку для устройства.</p></article>
+<article class="step"><b>02</b><p><strong>Добавьте бесплатную подписку.</strong> В INCY нажмите «+» и выберите импорт ссылки из буфера.</p></article>
+<article class="step"><b>03</b><p><strong>Включите соединение.</strong> Выберите маршрут и подтвердите запрос VPN.</p></article>
+</div>
+</section>
+<footer class="foot"><span>сказочный.vpn / личный проход</span><a href="#" id="manual">Добавить ссылку</a><a id="download" href="https://incy.cc/">Скачать INCY</a></footer>
+</div>
 
-      <span class="header-note">маршрут / свободен</span>
-    </header>
+<dialog id="modal">
+<form class="dialog" id="form">
+<h2>Добавьте<br>подписку</h2>
+<p>Вставьте ссылку подписки. Она сохранится только в этом браузере и скопируется перед открытием INCY.</p>
+<div class="form">
+<input id="url" type="url" placeholder="https:// или vless://…">
+<button>Сохранить и открыть INCY</button>
+</div>
+<p><button type="button" id="close">Закрыть</button></p>
+</form>
+</dialog>
 
-    <main class="main" id="top">
-      <section class="statement" aria-labelledby="quote">
-        <small>частный доступ / выпуск 01</small>
+<script>
+(()=>{
+const C={subscriptionUrl:'',incy:'incy://'};
+const S={
+ ios:'https://apps.apple.com/ru/app/incy/id6756943388',
+ android:'https://play.google.com/store/apps/details?id=llc.itdev.incy',
+ desktop:'https://github.com/INCY-DEV/incy-platforms/releases',
+ web:'https://incy.cc/'
+};
+const $=x=>document.querySelector(x),key='skazochny-vpn-url',ua=navigator.userAgent||'';
+const ipad=navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1;
+const D=/iPhone|iPad|iPod/i.test(ua)||ipad?['iPhone / iPad','iOS','App Store',S.ios]:
+/Android/i.test(ua)?['Android','Android','Google Play',S.android]:
+/Windows/i.test(ua)?['Windows','Windows','Загрузки INCY',S.desktop]:
+/Macintosh|Mac OS X/i.test(ua)?['macOS','macOS','Загрузки INCY',S.desktop]:
+/Linux/i.test(ua)?['Linux','Linux','Загрузки INCY',S.desktop]:
+['ваше устройство','INCY','сайт INCY',S.web];
 
-        <h1 id="quote">
-          <span>Интернет</span>
-          <span>задумывался</span>
-          <span>свободным.</span>
-        </h1>
+const modal=$('#modal'),field=$('#url'),ticket=$('#open');
+field.value=localStorage.getItem(key)||C.subscriptionUrl;
+const link=()=>localStorage.getItem(key)||C.subscriptionUrl;
 
-        <div class="statement-meta">
-          <span>Связь без лишних посредников</span>
-          <span><b>сказочный.vpn</b> / личный маршрут</span>
-        </div>
-      </section>
+function update(){
+ const has=!!link();
+ $('#device').textContent=`${D[1]} / ${D[2]}`;
+ $('#plat').textContent=`${D[1]} / free`;
+ $('#device-line').textContent=D[0];
+ $('#store').textContent=`${D[2]} ↗`;
+ $('#download').href=D[3];
+ $('#download').textContent=D[2];
+ $('#install').innerHTML=`<strong>Установите INCY.</strong> Нажмите карточку выше — откроется ${D[2]} для ${D[0]}.`;
+ $('#state').textContent=has?'ссылка готова':'бесплатный доступ';
+ $('#sub').textContent=has?'ссылка скопируется в буфер':`загрузка через ${D[2]}`;
+}
 
-      <section class="chamber" aria-label="Добавление VPN-подписки">
-        <span class="chamber-index" aria-hidden="true">PASS / 01</span>
+function copy(text){
+ if(!text)return;
+ if(navigator.clipboard&&isSecureContext)navigator.clipboard.writeText(text);
+ else{
+  const x=document.createElement('textarea');
+  x.value=text;document.body.append(x);x.select();document.execCommand('copy');x.remove();
+ }
+}
 
-        <svg class="contour" viewBox="0 0 1050 580" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M-30 433C151 155 253 653 477 362S727 153 1080 293" />
-          <path d="M-5 238C144 106 259 380 397 253S624 91 796 183" />
-          <path class="live" d="M-30 433C151 155 253 653 477 362S727 153 1080 293" />
-          <circle cx="477" cy="362" r="7" />
-          <circle cx="397" cy="253" r="5" />
-        </svg>
+function openIncy(){
+ const url=link();copy(url);
+ $('#action').innerHTML=`открываем<br>${D[2]}`;
+ $('#sub').textContent=url?'ссылка скопирована в буфер':'откроем установку, если INCY не найден';
+ $('#state').textContent='переходим в INCY';
+ let hidden=false;
+ const visible=()=>hidden=document.hidden;
+ document.addEventListener('visibilitychange',visible,{once:true});
+ location.href=C.incy;
+ setTimeout(()=>{
+  document.removeEventListener('visibilitychange',visible);
+  if(!hidden)location.assign(D[3]);
+ },1100);
+}
 
-        <button class="ticket" id="connect" type="button" aria-label="Добавить VPN-подписку">
-          <span class="ticket-top">
-            <span>Личный пропуск</span>
-            <i>01 / free</i>
-          </span>
+$('#manual').onclick=e=>{e.preventDefault();modal.showModal();setTimeout(()=>field.focus(),30)};
+$('#close').onclick=()=>modal.close();
+ticket.onclick=openIncy;
 
-          <span class="ticket-core">
-            <span class="ticket-symbol" id="ticket-symbol">+</span>
+ticket.onpointermove=e=>{
+ const r=ticket.getBoundingClientRect();
+ ticket.style.setProperty('--x',`${-((e.clientY-r.top)/r.height-.5)*7}deg`);
+ ticket.style.setProperty('--y',`${((e.clientX-r.left)/r.width-.5)*9}deg`);
+};
+ticket.onpointerleave=()=>{
+ ticket.style.setProperty('--x','0deg');
+ ticket.style.setProperty('--y','0deg');
+};
 
-            <span>
-              <b id="ticket-title">добавить<br>подписку</b>
-              <small id="ticket-subtitle">ваша ссылка остаётся у вас</small>
-            </span>
-          </span>
+$('#form').onsubmit=e=>{
+ e.preventDefault();
+ const value=field.value.trim();
+ try{
+  const p=new URL(value);
+  if(!['https:','http:','vless:','vmess:','ss:','trojan:','hysteria2:','tuic:'].includes(p.protocol))throw 0;
+  localStorage.setItem(key,value);
+  modal.close();update();openIncy();
+ }catch{
+  field.setCustomValidity('Введите корректную ссылку подключения.');
+  field.reportValidity();
+  field.oninput=()=>field.setCustomValidity('');
+ }
+};
 
-          <span class="ticket-bottom">
-            <span>vless · ss · vmess</span>
-            <strong>войти ↗</strong>
-          </span>
-        </button>
-
-        <p class="chamber-label">Статус канала<b id="signal-title">ожидает ключ</b></p>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <span>сказочный.vpn / личный проход</span>
-      <a href="#setup" id="setup-link">Добавить ссылку</a>
-      <span id="signal-subtitle">ничего не хранится на сервере</span>
-    </footer>
-  </div>
-
-  <dialog id="setup-dialog" aria-labelledby="setup-title">
-    <form class="dialog-body" id="setup-form" method="dialog">
-      <div class="dialog-top">
-        <div>
-          <p class="dialog-kicker">Ваш личный маршрут</p>
-          <h2 class="dialog-title" id="setup-title">Добавьте подписку</h2>
-        </div>
-
-        <button class="dialog-close" id="close-dialog" type="button" aria-label="Закрыть">×</button>
-      </div>
-
-      <p class="dialog-copy">Вставьте ссылку, которую вы получили от VPN-сервиса. Она сохранится только в этом браузере, чтобы открыть ваше приложение.</p>
-
-      <div class="form">
-        <label for="subscription-url">Ссылка подключения</label>
-        <input id="subscription-url" name="subscription-url" type="url" inputmode="url" autocomplete="url" placeholder="https:// или vless://…" />
-        <button type="submit">Сохранить и открыть маршрут</button>
-      </div>
-
-      <p class="hint">Не передавайте личную ссылку другим. Страница не создаёт VPN — она открывает подписку в вашем приложении.</p>
-    </form>
-  </dialog>
-
-  <script>
-    (() => {
-      const key = 'skazochny-vpn-url';
-
-      const dialog = document.querySelector('#setup-dialog');
-      const setupLink = document.querySelector('#setup-link');
-      const closeDialog = document.querySelector('#close-dialog');
-      const form = document.querySelector('#setup-form');
-      const field = document.querySelector('#subscription-url');
-      const connect = document.querySelector('#connect');
-      const ticket = document.querySelector('.ticket');
-      const ticketTitle = document.querySelector('#ticket-title');
-      const ticketSubtitle = document.querySelector('#ticket-subtitle');
-      const ticketSymbol = document.querySelector('#ticket-symbol');
-      const signalTitle = document.querySelector('#signal-title');
-      const signalSubtitle = document.querySelector('#signal-subtitle');
-
-      field.value = localStorage.getItem(key) || '';
-
-      function updateState() {
-        const hasSubscription = Boolean(localStorage.getItem(key));
-
-        signalTitle.textContent = hasSubscription ? 'маршрут готов' : 'ожидает ключ';
-        signalSubtitle.textContent = hasSubscription ? 'ключ сохранён в браузере' : 'ничего не хранится на сервере';
-        ticketTitle.innerHTML = hasSubscription ? 'открыть<br>маршрут' : 'добавить<br>подписку';
-        ticketSubtitle.textContent = hasSubscription ? 'ваш ключ уже сохранён' : 'ваша ссылка остаётся у вас';
-        ticketSymbol.textContent = hasSubscription ? '↗' : '+';
-        connect.setAttribute('aria-label', hasSubscription ? 'Открыть VPN-подключение' : 'Добавить VPN-подписку');
-      }
-
-      function showSetup() {
-        if (!dialog.open) dialog.showModal();
-        window.setTimeout(() => field.focus(), 20);
-      }
-
-      function openRoute() {
-        const url = localStorage.getItem(key);
-
-        if (!url) {
-          showSetup();
-          return;
-        }
-
-        connect.disabled = true;
-        ticketTitle.innerHTML = 'открываем<br>маршрут';
-        ticketSubtitle.textContent = 'передаём ключ приложению';
-        ticketSymbol.textContent = '·';
-        signalTitle.textContent = 'мгновение…';
-
-        window.setTimeout(() => {
-          window.location.assign(url);
-        }, 420);
-      }
-
-      setupLink.addEventListener('click', event => {
-        event.preventDefault();
-        showSetup();
-      });
-
-      closeDialog.addEventListener('click', () => dialog.close());
-      connect.addEventListener('click', openRoute);
-
-      ticket.addEventListener('pointermove', event => {
-        const rect = ticket.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width - .5;
-        const y = (event.clientY - rect.top) / rect.height - .5;
-
-        ticket.style.setProperty('--rx', `${-y * 7}deg`);
-        ticket.style.setProperty('--ry', `${x * 9}deg`);
-      });
-
-      ticket.addEventListener('pointerleave', () => {
-        ticket.style.setProperty('--rx', '0deg');
-        ticket.style.setProperty('--ry', '0deg');
-      });
-
-      form.addEventListener('submit', event => {
-        event.preventDefault();
-
-        const url = field.value.trim();
-
-        try {
-          const parsed = new URL(url);
-
-          const protocols = [
-            'https:',
-            'http:',
-            'vless:',
-            'vmess:',
-            'ss:',
-            'trojan:',
-            'hysteria2:',
-            'tuic:'
-          ];
-
-          if (!protocols.includes(parsed.protocol)) {
-            throw new Error('Unsupported protocol');
-          }
-
-          localStorage.setItem(key, url);
-          dialog.close();
-          updateState();
-          openRoute();
-        } catch {
-          field.setCustomValidity('Введите корректную ссылку подключения.');
-          field.reportValidity();
-
-          field.addEventListener('input', () => {
-            field.setCustomValidity('');
-          }, { once: true });
-        }
-      });
-
-      updateState();
-    })();
-  </script>
+update();
+})();
+</script>
 </body>
 </html>
